@@ -1,0 +1,16 @@
+--cpu ARM7TDMI
+".\objects\startup.o"
+".\objects\main.o"
+".\objects\complex.o"
+".\objects\fft.o"
+".\objects\delay.o"
+".\objects\pin.o"
+".\objects\spi1.o"
+".\objects\ili9225.o"
+".\objects\pll.o"
+".\objects\oscilloscope.o"
+".\objects\fft_fix.o"
+--scatter ".\Objects\OscDev.sct"
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\OscDev.map" -o .\Objects\OscDev.axf

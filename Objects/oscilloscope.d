@@ -1,0 +1,14 @@
+.\objects\oscilloscope.o: oscilloscope.cpp
+.\objects\oscilloscope.o: oscilloscope.h
+.\objects\oscilloscope.o: C:\Keil_v5\ARM\Inc\Philips\lpc214x.h
+.\objects\oscilloscope.o: complex.h
+.\objects\oscilloscope.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\objects\oscilloscope.o: FFT.h
+.\objects\oscilloscope.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\oscilloscope.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\oscilloscope.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
+.\objects\oscilloscope.o: fft_fix.h
+.\objects\oscilloscope.o: ILI9225.h
+.\objects\oscilloscope.o: pin.h
+.\objects\oscilloscope.o: delay.h
+.\objects\oscilloscope.o: DefaultFonts.h
