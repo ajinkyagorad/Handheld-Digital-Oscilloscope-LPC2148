@@ -1,4 +1,6 @@
 //ILI9225 controller 2.2" TFT Library Header File
+//following content is modified 
+// originally from https://github.com/Nkawu/TFT_22_ILI9225 
 #ifndef ILI9225_H
 	#define ILI9225_H
 	#include <lpc214x.h>

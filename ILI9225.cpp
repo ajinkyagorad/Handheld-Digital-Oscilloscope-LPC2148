@@ -1,4 +1,7 @@
 //ILI9225 controller 2.2" TFT Library
+//following content is modified 
+// originally from https://github.com/Nkawu/TFT_22_ILI9225 
+
 
 #include "ILI9225.h"
 
@@ -350,10 +353,31 @@ void ILI9225::drawLine(unsigned int x1, unsigned int y1, unsigned int x2, unsign
 void ILI9225::drawPixel(unsigned int x1, unsigned int y1, unsigned int color)
 {
 	//_orientCoordinates(x1, y1);
+	/*
 	_writeRegister(ILI9225_RAM_ADDR_SET1,x1);
 	_writeRegister(ILI9225_RAM_ADDR_SET2,y1);
 	_writeCommand(0x0022);
 	_writeData(color);
+	*/
+	
+		//write Register
+				//writeCommand
+				_writeCommand(ILI9225_RAM_ADDR_SET1);
+					//write Data
+				_writeData(x1);
+				
+		//writeRegister
+				//writeCommand
+				_writeCommand(ILI9225_RAM_ADDR_SET2);
+					//write Data
+				_writeData(y1);
+				
+		//writeRegister
+				//Write command
+				_writeCommand(0x0022);
+				//write data
+				_writeData(color);
+	
 }
 void ILI9225::_drawPixel(unsigned int x1, unsigned int y1, unsigned int color) {
 

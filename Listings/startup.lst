@@ -283,9 +283,9 @@ ARM Macro Assembler    Page 5
   149 00003A98 00000002 
                        MAMCR_Val
                                EQU              0x00000002
-  150 00003A98 00000003 
+  150 00003A98 00000002 
                        MAMTIM_Val
-                               EQU              0x00000003
+                               EQU              0x00000002
   151 00003A98         
   152 00003A98         
   153 00003A98         ; External Memory Controller (EMC) definitions
@@ -525,7 +525,7 @@ ARM Macro Assembler    Page 9
 
 
   344 00000058 E59F0060        LDR              R0, =MAM_BASE
-  345 0000005C E3A01003        MOV              R1, #MAMTIM_Val
+  345 0000005C E3A01002        MOV              R1, #MAMTIM_Val
   346 00000060 E5801004        STR              R1, [R0, #MAMTIM_OFS]
   347 00000064 E3A01002        MOV              R1, #MAMCR_Val
   348 00000068 E5801000        STR              R1, [R0, #MAMCR_OFS]
@@ -1116,7 +1116,7 @@ Symbol: MAMTIM_OFS
    Uses
       At line 346 in file Startup.s
 Comment: MAMTIM_OFS used once
-MAMTIM_Val 00000003
+MAMTIM_Val 00000002
 
 Symbol: MAMTIM_Val
    Definitions

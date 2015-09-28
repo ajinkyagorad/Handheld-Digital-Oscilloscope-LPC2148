@@ -1,6 +1,7 @@
 #include "FFT.h"
 const int sizeLUT = 256;
 float sineLUT[sizeLUT];
+//following is from http://staff.science.nus.edu.sg/~phywjs/CZ5101/fft.c
 /*----------------------------------------------------------------------*/
 /* Truncated Stockham algorithm for multi-column vector,
        X(n1,n2) <- F_n1 X(n1,n2)

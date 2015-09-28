@@ -12,14 +12,14 @@
       <ToolsetName>ARM-ADS</ToolsetName>
       <TargetOption>
         <TargetCommonOption>
-          <Device>LPC2148</Device>
+          <Device>LPC2138</Device>
           <Vendor>NXP</Vendor>
           <Cpu>IRAM(0x40000000-0x40007FFF) IROM(0-0x7FFFF) CLOCK(12000000) CPUTYPE(ARM7TDMI)</Cpu>
           <FlashUtilSpec>LPC210x_ISP.EXE ("#H" ^X $D COM1: 38400 1)</FlashUtilSpec>
           <StartupFile>"STARTUP\Philips\Startup.s" ("Philips LPC2100 Startup Code")</StartupFile>
           <FlashDriverDll>UL2ARM(-U268761108 -O7 -C0 -FO15 -FD40000000 -FC800 -FN1 -FF0LPC_IAP2_512 -FS00 -FL07D000)</FlashDriverDll>
-          <DeviceId>3880</DeviceId>
-          <RegisterFile>LPC214X.H</RegisterFile>
+          <DeviceId>3734</DeviceId>
+          <RegisterFile>LPC213X.H</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -106,11 +106,11 @@
           <SimDllName>SARM.DLL</SimDllName>
           <SimDllArguments>-cLPC2100</SimDllArguments>
           <SimDlgDll>DARMP.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pLPC2148</SimDlgDllArguments>
+          <SimDlgDllArguments>-pLPC2138</SimDlgDllArguments>
           <TargetDllName>SARM.DLL</TargetDllName>
           <TargetDllArguments></TargetDllArguments>
           <TargetDlgDll>TARMP.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pLPC2148</TargetDlgDllArguments>
+          <TargetDlgDllArguments>-pLPC2138</TargetDlgDllArguments>
         </DllOption>
         <DebugOption>
           <OPTHX>
@@ -173,7 +173,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2ARM.DLL</Flash2>
-          <Flash3>"LPC210x_ISP.EXE" ("#H" ^X $D COM1: 38400 1)</Flash3>
+          <Flash3>LPC210x_ISP.EXE ("#H" ^X $D COM1: 38400 1)</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -442,11 +442,6 @@
               <FilePath>.\FFT.h</FilePath>
             </File>
             <File>
-              <FileName>ILI9225.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\ILI9225.h</FilePath>
-            </File>
-            <File>
               <FileName>delay.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\delay.cpp</FilePath>
@@ -497,9 +492,9 @@
               <FilePath>.\oscilloscope.cpp</FilePath>
             </File>
             <File>
-              <FileName>oscilloscope.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\oscilloscope.h</FilePath>
+              <FileName>fft_fix.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\fft_fix.cpp</FilePath>
             </File>
           </Files>
         </Group>

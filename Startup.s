@@ -147,7 +147,7 @@ MAMTIM_OFS      EQU     0x04            ; MAM Timing Offset
 ;// </e>
 MAM_SETUP       EQU     1
 MAMCR_Val       EQU     0x00000002
-MAMTIM_Val      EQU     0x00000003
+MAMTIM_Val      EQU     0x00000002
 
 
 ; External Memory Controller (EMC) definitions

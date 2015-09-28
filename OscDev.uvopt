@@ -73,7 +73,7 @@
         <LExpSel>0</LExpSel>
       </OPTXL>
       <OPTFL>
-        <tvExp>0</tvExp>
+        <tvExp>1</tvExp>
         <tvExpOptDlg>0</tvExpOptDlg>
         <IsCurrentTarget>1</IsCurrentTarget>
       </OPTFL>
@@ -82,12 +82,7 @@
         <Book>
           <Number>0</Number>
           <Title>Data Sheet</Title>
-          <Path>DATASHTS\PHILIPS\LPC2141_42_44_46_48.PDF</Path>
-        </Book>
-        <Book>
-          <Number>1</Number>
-          <Title>User Manual</Title>
-          <Path>DATASHTS\PHILIPS\user_manual_LPC214x.pdf</Path>
+          <Path>DATASHTS\PHILIPS\LPC2131_32_34_36_38.PDF</Path>
         </Book>
       </Books>
       <DebugOpt>
@@ -129,7 +124,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>UL2ARM</Key>
-          <Name>UL2ARM(-U268761108 -O7 -C0 -FO15 -FD40000000 -FC800 -FN1 -FF0LPC_IAP2_512 -FS00 -FL07D000)</Name>
+          <Name>UL2ARM(-U268761108 -O7 -C0 -FO15  -FN1 -FC800 -FD40000000 -FF0LPC_IAP2_512 -FL07D000 -FS00</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint/>
@@ -169,7 +164,7 @@
 
   <Group>
     <GroupName>Source Group 1</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -267,19 +262,6 @@
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>8</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\ILI9225.h</PathWithFileName>
-      <FilenameWithoutPath>ILI9225.h</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>9</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -292,7 +274,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>10</FileNumber>
+      <FileNumber>9</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -305,7 +287,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>11</FileNumber>
+      <FileNumber>10</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -318,7 +300,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>12</FileNumber>
+      <FileNumber>11</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -331,7 +313,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>13</FileNumber>
+      <FileNumber>12</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -344,7 +326,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>14</FileNumber>
+      <FileNumber>13</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -357,7 +339,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>15</FileNumber>
+      <FileNumber>14</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -370,7 +352,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>16</FileNumber>
+      <FileNumber>15</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -383,7 +365,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <FileNumber>16</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -396,7 +378,7 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>18</FileNumber>
+      <FileNumber>17</FileNumber>
       <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -409,14 +391,14 @@
     </File>
     <File>
       <GroupNumber>1</GroupNumber>
-      <FileNumber>19</FileNumber>
-      <FileType>5</FileType>
+      <FileNumber>18</FileNumber>
+      <FileType>8</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\oscilloscope.h</PathWithFileName>
-      <FilenameWithoutPath>oscilloscope.h</FilenameWithoutPath>
+      <PathWithFileName>.\fft_fix.cpp</PathWithFileName>
+      <FilenameWithoutPath>fft_fix.cpp</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

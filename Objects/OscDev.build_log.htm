@@ -22,7 +22,7 @@ Dialog DLL:      TARMP.DLL V1.51
  
 <h2>Project:</h2>
 C:\Users\Ajinkya\Documents\ARM\LPC2148_Oscilloscope\OscDev.uvproj
-Project File Date:  06/17/2015
+Project File Date:  06/20/2015
 
 <h2>Output:</h2>
 Rebuild target 'Target 1'
@@ -50,7 +50,7 @@ complex.h(45): warning:  #1-D: last line of file ends without a newline
   #endif
 FFT.h(93): warning:  #1-D: last line of file ends without a newline
   #endif
-FFT.cpp(242): warning:  #1-D: last line of file ends without a newline
+FFT.cpp(243): warning:  #1-D: last line of file ends without a newline
   */
 FFT.cpp: 3 warnings, 0 errors
 compiling delay.cpp...
@@ -62,9 +62,9 @@ spi1.c(15): warning:  #1-D: last line of file ends without a newline
   }
 spi1.c: 2 warnings, 0 errors
 compiling ILI9225.cpp...
-ILI9225.cpp(251): warning:  #68-D: integer conversion resulted in a change of sign
+ILI9225.cpp(254): warning:  #68-D: integer conversion resulted in a change of sign
         int ddF_y = -2 * r;
-ILI9225.cpp(586): warning:  #177-D: variable "k" was declared but never referenced
+ILI9225.cpp(610): warning:  #177-D: variable "k" was declared but never referenced
         char h, i, j, k;
 ILI9225.cpp: 2 warnings, 0 errors
 compiling pll.cpp...
@@ -78,17 +78,19 @@ FFT.h(93): warning:  #1-D: last line of file ends without a newline
   #endif
 fft_fix.h(18): warning:  #1-D: last line of file ends without a newline
   #endif
-oscilloscope.cpp(413): warning:  #1-D: last line of file ends without a newline
-  }
-oscilloscope.cpp: 4 warnings, 0 errors
+oscilloscope.cpp(154): warning:  #177-D: variable "wavPeriodTri" was declared but never referenced
+                int wavPeriodTri = DAC_Period/16;
+oscilloscope.cpp(253): warning:  #177-D: variable "xInterval" was declared but never referenced
+                int xInterval=ILI9225_LCD_WIDTH/2;      
+oscilloscope.cpp: 5 warnings, 0 errors
 compiling fft_fix.cpp...
 fft_fix.cpp(89): warning:  #177-D: variable "t" was declared but never referenced
           fixed qr,qi,tr,ti,wr,wi,t;
 fft_fix.cpp: 1 warning, 0 errors
 linking...
-Program Size: Code=17944 RO-data=1004 RW-data=16 ZI-data=24720  
+Program Size: Code=18924 RO-data=1064 RW-data=16 ZI-data=26368  
 FromELF: creating hex file...
-".\Objects\OscDev.axf" - 0 Error(s), 20 Warning(s).
+".\Objects\OscDev.axf" - 0 Error(s), 21 Warning(s).
 </pre>
 </body>
 </html>

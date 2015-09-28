@@ -1,15 +1,15 @@
 Dependencies for Project 'OscDev', Target 'Target 1': (DO NOT MODIFY !)
-F (.\Startup.s)(0x558131CA)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--pd "__UVISION_VERSION SETA 514"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
-F (.\main.cpp)(0x55812E48)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\Startup.s)(0x559400FA)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--pd "__UVISION_VERSION SETA 514"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
+F (.\main.cpp)(0x55F1BF77)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 I (spi1.h)(0x55812659)
-I (ILI9225.h)(0x5582FDC3)
+I (ILI9225.h)(0x55F1CB36)
 I (pin.h)(0x558184E5)
 I (delay.h)(0x55812294)
 I (DefaultFonts.h)(0x5501D3B6)
 I (pll.h)(0x54EFA975)
 I (defines.h)(0x55811F08)
-I (oscilloscope.h)(0x55831291)
+I (oscilloscope.h)(0x55F1CB2E)
 I (complex.h)(0x5571616E)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x54761626)
 I (FFT.h)(0x55818AA3)
@@ -22,7 +22,7 @@ I (complex.h)(0x5571616E)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x54761626)
 F (.\complex.h)(0x5571616E)()
 F (.\DefaultFonts.h)(0x5501D3B6)()
-F (.\FFT.cpp)(0x5582F93A)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\fft.o --omf_browse .\objects\fft.crf --depend .\objects\fft.d)
+F (.\FFT.cpp)(0x55F1BE3C)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\fft.o --omf_browse .\objects\fft.crf --depend .\objects\fft.d)
 I (FFT.h)(0x55818AA3)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54761628)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x54761626)
@@ -40,8 +40,8 @@ F (.\pin.h)(0x558184E5)()
 F (.\spi1.c)(0x558125F3)(--c99 -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\spi1.o --omf_browse .\objects\spi1.crf --depend .\objects\spi1.d)
 I (spi1.h)(0x55812659)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
-F (.\ILI9225.cpp)(0x5582FE1E)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\ili9225.o --omf_browse .\objects\ili9225.crf --depend .\objects\ili9225.d)
-I (ILI9225.h)(0x5582FDC3)
+F (.\ILI9225.cpp)(0x55F1CB1A)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\ili9225.o --omf_browse .\objects\ili9225.crf --depend .\objects\ili9225.d)
+I (ILI9225.h)(0x55F1CB36)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 I (pin.h)(0x558184E5)
 I (delay.h)(0x55812294)
@@ -52,8 +52,8 @@ I (defines.h)(0x55811F08)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 F (.\pll.h)(0x54EFA975)()
 F (.\defines.h)(0x55811F08)()
-F (.\oscilloscope.cpp)(0x5583BC48)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\oscilloscope.o --omf_browse .\objects\oscilloscope.crf --depend .\objects\oscilloscope.d)
-I (oscilloscope.h)(0x55831291)
+F (.\oscilloscope.cpp)(0x55F1C965)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\oscilloscope.o --omf_browse .\objects\oscilloscope.crf --depend .\objects\oscilloscope.d)
+I (oscilloscope.h)(0x55F1CB2E)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 I (complex.h)(0x5571616E)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x54761626)
@@ -62,7 +62,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x54761628)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x54761628)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x54761628)
 I (fft_fix.h)(0x55830FE9)
-I (ILI9225.h)(0x5582FDC3)
+I (ILI9225.h)(0x55F1CB36)
 I (pin.h)(0x558184E5)
 I (delay.h)(0x55812294)
 I (DefaultFonts.h)(0x5501D3B6)
