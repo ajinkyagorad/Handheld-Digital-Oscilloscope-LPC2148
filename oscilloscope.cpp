@@ -87,8 +87,8 @@ __irq void Timer1_Interrupt(void)
 void initADC(void)
 {
 	//enable pins for ADC operation
-	PINSEL0 |= (3<<20); // for AD1.2
-	PINSEL1|=(1<<26);		//for AD0.2
+	PINSEL0 |= (3<<20); // for AD1.2 !!
+	PINSEL1|=(1<<26);		//for AD0.2 !!
 	isTriggered = false;
 	
 }
