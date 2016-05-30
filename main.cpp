@@ -10,7 +10,7 @@ extern "C"{
 #include "oscilloscope.h"		
 pll _clock(12000000,5,1);		// set at maximum recommended operating  frequency @12MHz (x5) = @60MHz
 delayClass wait(60000000);	//delay class object with operating frequency input
-pin lcd_rst(124), lcd_rs(8), lcd_cs(7), lcd_led(9); // for individual control pins for lcd's
+pin lcd_rst(124), lcd_rs(8), lcd_cs(20), lcd_led(9); // for individual control pins for lcd's
 ILI9225 lcd(lcd_rst,lcd_rs,lcd_cs,lcd_led);		// LCD object  with  LCD pins
 int main(void)
 {

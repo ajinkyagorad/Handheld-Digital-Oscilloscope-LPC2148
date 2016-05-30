@@ -1,0 +1,741 @@
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=5,IE=9" ><![endif]-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flow Chart Maker & Online Diagram Software</title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Description" content="draw.io is free online diagram software for making flow charts, process diagrams, org charts, UML, ER and network diagrams">
+    <meta name="Keywords" content="diagram, online, visio, flow chart maker, uml, erd">
+    <meta itemprop="name" content="draw.io - free flow chart maker and diagrams online">
+	<meta itemprop="description" content="draw.io is a free online diagramming application  and flow chart maker . You can use it to create UML, entity relationship,
+		org charts, BPMN and BPM, database schema and networks. Also possible are telecommunication network, workflow, flowcharts, maps overlays and GIS, electronic 
+		circuit and social network diagrams. It's like a mini version of Visio in your browser.">
+	<meta itemprop="image" content="https://lh4.googleusercontent.com/-cLKEldMbT_E/Tx8qXDuw6eI/AAAAAAAAAAs/Ke0pnlk8Gpg/w500-h344-k/BPMN%2Bdiagram%2Brc2f.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="canonical" href="https://www.draw.io">
+	<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/plgmlhohecdddhbmmkncjdmlhcmaachm">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-iphone4.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-ipad3.png">
+    <link rel="apple-touch-startup-image" href="images/apple-startup.png">
+    <link rel="stylesheet" type="text/css" href="styles/grapheditor.css">
+	<style type="text/css">
+		body { _overflow: hidden; }
+		.geSidebarContainer .geTitle { color:#505050; }
+		.geSidebarContainer .geTitle input {
+			font-size:8pt;
+			color:#606060;
+		}
+		.geBlock {
+			z-index: -3;
+			margin:100px;
+			margin-top:40px;
+			margin-bottom:30px;
+			padding:20px;
+			border-radius:6px;
+			-webkit-box-shadow:0px 0px 4px 4px #e5e5e5;
+			-moz-box-shadow:0px 0px 4px 4px #e5e5e5;
+			box-shadow:0px 0px 4px 4px #e5e5e5;
+			_filter:progid:DXImageTransform.Microsoft.DropShadow(OffX=4, OffY=4, Color='#e5e5e5', Positive='true');
+			border:1px solid gray;
+			background-color:white;
+		}
+		.geBlock h1, .geBlock h2 {
+			margin-top:0px;
+			padding-top:0px;
+		}
+		.geEditor {
+			background-color:whiteSmoke;
+		}
+		.geEditor ::-webkit-scrollbar {
+		    width:12px;
+		    height:12px;
+		}
+		.geEditor ::-webkit-scrollbar-track {
+			background:whiteSmoke;
+			-webkit-box-shadow:inset 0 0 4px rgba(0,0,0,0.1);
+		}
+		.geEditor ::-webkit-scrollbar-thumb {
+			background:#c5c5c5;
+		    border-radius:10px;
+			border:whiteSmoke solid 3px;
+		}
+		.geEditor ::-webkit-scrollbar-thumb:hover {
+			background:#b5b5b5;
+		}
+		.geTemplate {
+			border:1px solid transparent;
+			display:inline-block;
+			_display:inline;
+			vertical-align:top;
+			border-radius:3px;
+			overflow:hidden;
+			font-size:14pt;
+			cursor:pointer;
+			margin:5px;
+		}
+		.geFooterContainer {
+			z-index:100;
+		}
+	</style>
+	<script type="text/javascript">
+		/**
+		 * Parses URL parameters. Supported parameters are (precedence in given order):
+		 * 
+		 * - lang=xy: Specifies the language of the user interface
+		 * - touch=1: Enables a touch-style user interface
+		 * - libs=key1;key2;...;keyN: Specifies the libraries
+		 * - clibs=key1;key2;key;...;keyN: Specifies custom libraries
+		 * - picker=0: Disables Google picker
+		 * - picker=1: Enables Google picker
+		 * - storage=device: Adds device storage option for touch devices
+		 * - mode=google/dropobox/device/browser: Switch to given mode
+		 * - chrome=0: Chromeless read-only viewer with no analytics
+		 * - nav=1: Enables folding in chromeless mode
+		 * - https=0: Disables/enables SSL
+		 * - save=local/remote: Uses/disables saving files locally (local is default)
+		 * - stealth=1: Runs in offline mode but without caching
+		 * - math=0: Disables MathJax support
+		 * - drive=0: Simulates www.draw.io (using old app ID)
+		 * - url=url: Opens diagram from URL (URL should be encoded)
+		 * - analytics=0: Disables Google Analytics
+		 * - plugins=0: Do not load Plugins
+		 * - gapi=0: Do not load Google APIs
+		 * - db=0: Do not load Dropbox APIs
+		 * - od=0: Do not load OneDrive APIs
+		 * - format=0: Disables the format panel.
+		 * - photos=1: Adds the photos scopes in Drive.
+		 * - thumb=0: Disables creation of thumbnails in Drive.
+		 * - client=1: Runs in client mode. This will run a normal UI and send a "ready"
+		 *   message to the opener or parent when the page is loaded. After receiving
+		 *   a message with XML or compressed XML, a local file is created. The file is then
+		 *   set to modified so the connection to the window can be closed after sending the
+		 *   initial XML. The XML will not be loaded again after a refresh. The window will
+		 *   stay empty in this case.
+		 * - embed=1: Runs in embedded mode. This will send a "ready" message to the
+		 *   opener or parent when the page is loaded. After receiving the ready message
+		 *   the data can be sent as XML or compressed XML. It will send back XML or an empty
+		 *   string if apply or cancel are pressed, respectively.
+		 * - ui=atlas: Uses the atlas theme for the UI
+		 * - ready=message: The message to send in embed or client mode. Default is 'ready'.
+		 * - create=url/name: Creates new file from template URL. If the value is not an
+		 *   URL and is not empty the script will try to use window.opener[url]. In embed
+		 *   mode, window.opener[name] will be used to get the initial XML. Note that this
+		 *   needs same origin policy in the opener/parent for reading the variable.
+		 * - title=title: New file title (used with create)
+		 * - offline=1: Shortcut for db=0&gapi=0&math=0&picker=0&analytics=0
+		 *   and disables all remote operations and features, such as i18n (english only),
+		 *   remote images, google/dropbox integration, plugins and bitmap and PDF export.
+		 * - demo=1: Shortcut for db=0&gapi=0&math=0&picker=0&analytics=0, disables the
+		 *   splash screen and creates an empty, local file.
+		 * - rev=id: Selects a specific revision of a Google Drive file.
+		 * - pv=0: Sets default pageVisible to false.
+		 * - sb=0: Starts with scrollbars disabled.
+		 * --
+		 * - dev=1: For developers only
+		 * - test=1: For developers only
+		 * - drawdev=1: For developers only
+		 * - export=URL for export: For developers only
+		 * - ignoremime=1: For developers only (see DriveClient.js). Use Cmd-S to override mime.
+		 * - createindex=1: For depelopers only (see etc/build/README)
+		 */
+		var urlParams = (function()
+		{
+			var result = new Object();
+			var params = window.location.search.slice(1).split('&');
+			
+			for (var i = 0; i < params.length; i++)
+			{
+				idx = params[i].indexOf('=');
+				
+				if (idx > 0)
+				{
+					result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
+				}
+			}
+			
+			return result;
+		})();
+
+		/**
+		 * Synchronously adds scripts to the page.
+		 */
+		function mxscript(src)
+		{
+			document.write('<script src="'+src+'"></scr' + 'ipt>');
+		};
+
+		/**
+		 * Asynchronously adds scripts to the page.
+		 */
+		function mxinclude(src)
+		{
+			var g = document.createElement('script'); g.type = 'text/javascript'; g.async = true; g.src = src;
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(g, s);
+		};
+
+		// Checks for local storage and SVG support
+		var isSvgBrowser = navigator.userAgent.indexOf('MSIE') < 0 || document.documentMode >= 9;
+		var isLocalStorage = false;
+		
+		try
+		{
+			isLocalStorage = typeof(localStorage) != 'undefined';
+		}
+		catch (e)
+		{
+			// ignored
+		}
+
+		// Redirect from rt.drive.io to drive.draw.io
+		if (window.location.host == 'rt.draw.io')
+		{
+			window.location.host = 'drive.draw.io';
+		}
+		
+		// Redirects to SSL/non-SSL
+		if (urlParams['demo'] != '1')
+		{
+			var ssl = (urlParams['https'] != null) ? urlParams['https'] == '1' : isSvgBrowser;
+			
+			if (ssl && window.location.protocol != 'https:')
+			{
+				window.location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+			}
+			else if (!ssl && window.location.protocol != 'http:')
+			{
+				window.location.href = 'http:' + window.location.href.substring(window.location.protocol.length);
+			}
+		}
+
+		var t0 = new Date();
+	
+		// Public global variables
+		var MAX_REQUEST_SIZE = 10485760;
+		var MAX_AREA = 10000 * 10000;
+	
+		// CUSTOM_PARAMETERS - URLs for save and export
+		var EXPORT_URL = 'https://exp.draw.io/ImageExport4/export';
+
+		var SAVE_URL = 'save';
+		var OPEN_URL = 'open';
+		var PROXY_URL = 'proxy';
+
+		// Paths and files
+		var STENCIL_PATH = 'stencils';
+		var SHAPES_PATH = 'shapes';
+		var IMAGE_PATH = 'images';
+		// Path for images inside the diagram
+		var GRAPH_IMAGE_PATH = 'img';
+		var ICONFINDER_PATH = (navigator.userAgent.indexOf('MSIE') >= 0) ? 'iconfinder' : 'https://www.draw.io/iconfinder';
+		var STYLE_PATH = 'styles';
+		var CSS_PATH = 'styles';
+		var OPEN_FORM = 'open.html';
+		var TEMPLATE_PATH = '/templates';
+		
+		// Directory for i18 files and basename for main i18n file
+		var RESOURCES_PATH = 'resources';
+		var RESOURCE_BASE = RESOURCES_PATH + '/dia';
+	
+		// Specifies connection mode for touch devices (at least one should be true)
+		var tapAndHoldStartsConnection = true;
+		var showConnectorImg = true;
+
+		/**
+		 * Global function for loading local files via servlet
+		 */
+		function setCurrentXml(data, filename)
+		{
+			if (window.parent != null && window.parent.openFile != null)
+			{
+				window.parent.openFile.setData(data, filename);
+			}
+		};
+
+		/**
+		 * Returns the global language
+		 */
+		function getLanguage() 
+		{
+			var lang = (urlParams['offline'] == '1') ? 'en' : urlParams['lang'];
+			
+			// Known issue: No JSON object at this point in quirks in IE8
+			if (lang == null && typeof(JSON) != 'undefined')
+			{
+				// Cannot use mxSettings here
+				if (isLocalStorage) 
+				{
+					try
+					{
+						var value = localStorage.getItem('.drawio-config');
+						
+						if (value != null)
+						{
+							lang = JSON.parse(value).language || null;
+						}
+					}
+					catch (e)
+					{
+						// cookies are disabled, attempts to use local storage will cause
+						// a DOM error at a minimum on Chrome
+						isLocalStorage = false;
+					}
+				}
+			}
+			
+			return lang;
+		};
+		
+		// Sets the base path, the UI language via URL param and configures the
+		// supported languages to avoid 404s. The loading of all core language
+		// resources is disabled as all required resources are in grapheditor.
+		// properties. Note that in this example the loading of two resource
+		// files (the special bundle and the default bundle) is disabled to
+		// save a GET request. This requires that all resources be present in
+		// the special bundle.
+		var mxLoadResources = false;
+		var mxLanguage = getLanguage();
+		
+		// Add new languages here. First entry is translated to [Automatic]
+		// in the menu defintion in Diagramly.js.
+		var mxLanguageMap = {'bs' : 'Bosanski', 'cs' : 'Čeština', 'da' : 'Dansk', 'de' : 'Deutsch', 'en' : 'English', 'es' : 'Español', 
+				'es-ar' : 'Español (Ar)', 'fr' : 'Français', 'id' : 'Indonesian', 'it' : 'Italiano', 'hu' : 'Magyar', 'nl' : 'Nederlands', 'no' : 'Norsk', 
+				'pl' : 'Polski', 'pt-br' : 'Português (Brasil)', 'pt' : 'Português (Portugal)', 'ro' : 'Română', 'fi' : 'Suomi', 'sv' : 'Svenska', 'tr' : 'Türkçe',
+				'el' : 'Ελληνικά', 'ru' : 'Русский', 'sr' : 'Српски', 'uk' : 'Українська', 'th' : 'ไทย', 'ar' : 'العربية', 'zh' : '中文（中国）',  'zh-tw' : '中文（台灣）', 'ja' : '日本語', 'ko' : '한국어'};
+
+		var geBasePath = 'js';
+		var mxBasePath = 'mxgraph';
+		var mxLanguages = [];
+		
+		// Populates the list of supported special language bundles
+		for (var lang in mxLanguageMap)
+		{
+			// Empty means default (ie. browser language), "en" means English (default for unsupported languages)
+			// Since "en" uses no extension this must not be added to the array of supported language bundles.
+			if (lang != 'en')
+			{
+				mxLanguages.push(lang);
+			}
+		}
+
+		/**
+		 * Returns the global UI setting before runngin static draw.io code
+		 */
+		var uiTheme = (function() 
+		{
+			var ui = urlParams['ui'];
+			
+			// Known issue: No JSON object at this point in quirks in IE8
+			if (ui == null && typeof(JSON) != 'undefined')
+			{
+				// Cannot use mxSettings here
+				if (isLocalStorage) 
+				{
+					try
+					{
+						var value = localStorage.getItem('.drawio-config');
+						
+						if (value != null)
+						{
+							ui = JSON.parse(value).ui || null;
+						}
+					}
+					catch (e)
+					{
+						// cookies are disabled, attempts to use local storage will cause
+						// a DOM error at a minimum on Chrome
+						isLocalStorage = false;
+					}
+				}
+			}
+			
+			return ui;
+		})();
+		
+		// Used to request grapheditor/mxgraph sources in dev mode
+		var mxDevUrl = document.location.protocol + '//devhost.jgraph.com/mxgraph2';
+
+		// Used to request draw.io sources in dev mode
+		var drawDevUrl = '';
+
+		if (urlParams['drawdev'] == '1')
+		{
+			drawDevUrl = document.location.protocol + '//drawhost.jgraph.com/';
+		}
+
+		// Customizes export URL
+		var ex = urlParams['export'];
+		
+		if (ex != null)
+		{
+			EXPORT_URL = ex;
+		}
+		
+		// Enables offline mode
+		if (urlParams['offline'] == '1' || urlParams['demo'] == '1')
+		{
+			urlParams['analytics'] = '0';
+			urlParams['picker'] = '0';
+			urlParams['gapi'] = '0';
+			urlParams['math'] = '0';
+			urlParams['db'] = '0';
+			urlParams['od'] = '0';
+		}
+		
+		// Enables stealth mode
+		if (urlParams['stealth'] == '1')
+		{
+			urlParams['analytics'] = '0';
+			urlParams['picker'] = '0';
+			urlParams['gapi'] = '0';
+			urlParams['db'] = '0';
+			urlParams['od'] = '0';
+		}
+
+		// Changes paths for local development environment
+		if (urlParams['dev'] == '1')
+		{
+			geBasePath = mxDevUrl + '/javascript/examples/grapheditor/www/js';
+			mxBasePath = mxDevUrl + '/javascript/src';
+			mxscript(mxBasePath + '/js/mxClient.js');
+
+			// Adds external dependencies
+			mxscript(drawDevUrl + 'js/spin/spin.min.js');
+			mxscript(drawDevUrl + 'js/deflate/rawinflate.js');
+			mxscript(drawDevUrl + 'js/deflate/rawdeflate.min.js');
+			mxscript(drawDevUrl + 'js/deflate/base64.js');
+			mxscript(drawDevUrl + 'js/sanitizer/sanitizer.min.js');
+			mxscript(drawDevUrl + 'js/html2canvas/html2canvas-0_4_1.js');
+			
+			// Adds all JS code that depends on mxClient. This indirection via Devel.js is
+			// required in some browsers to make sure mxClient.js (and the files that it
+			// loads asynchronously) are available when the code loaded in Devel.js runs.
+			mxscript(drawDevUrl + 'js/diagramly/Devel.js');
+		}
+		else
+		{
+			mxscript('js/app.min.js');
+		}
+
+		// Loads gapi for all browsers but IE8 and below if not disabled or if enabled and in embed mode
+		if (((urlParams['embed'] != '1' && urlParams['gapi'] != '0') || (urlParams['embed'] == '1' && urlParams['gapi'] == '1')) &&
+			isSvgBrowser && isLocalStorage && (document.documentMode == null || document.documentMode >= 10))
+		{
+			mxscript('https://apis.google.com/js/api.js');
+		}
+		
+		// Switches to dropbox mode for db.draw.io
+		if (window.location.hostname == 'db.draw.io' && urlParams['mode'] == null)
+		{
+			urlParams['mode'] = 'dropbox';
+		}
+
+		// Loads dropbox for all browsers but IE8 and below (no CORS) if not disabled or if enabled and in embed mode
+		// KNOWN: Picker does not work in IE11 (https://dropbox.zendesk.com/requests/1650781)
+		if (((urlParams['embed'] != '1' && urlParams['db'] != '0') || (urlParams['embed'] == '1' &&
+			urlParams['db'] == '1')) && isSvgBrowser)
+		{
+			mxscript('js/dropbox/dropbox.min.js');
+		}
+
+		// Loads dropbox for all browsers but IE6/IOS if not disabled or if enabled and in embed mode
+		if ((window.location.hostname == 'www.draw.io' || window.location.hostname == 'test.draw.io' ||
+			window.location.hostname == 'drive.draw.io') && (((urlParams['embed'] != '1' &&
+			urlParams['od'] != '0') || (urlParams['embed'] == '1' && urlParams['od'] == '1')) &&
+			!navigator.userAgent.match(/(iPad|iPhone|iPod)/g) &&
+			(navigator.userAgent.indexOf('MSIE') < 0 || document.documentMode >= 10)))
+		{
+			mxscript('https://js.live.net/v5.0/wl.js');
+		}
+
+		// Loads JSON for older browsers
+		if (typeof(JSON) == 'undefined')
+		{
+			mxscript('js/json/json2.min.js');
+		}
+		
+		// Adds basic error handling
+		window.onerror = function()
+		{
+			var status = document.getElementById('geStatus');
+			
+			if (status != null)
+			{
+				status.innerHTML = 'Page could not be loaded. Please try refreshing.';
+			}
+		};
+	</script>
+</head>
+<body class="geEditor">
+<div id="geInfo">
+	<div class="geBlock" style="text-align:center;">
+		<h1>Flow Chart Maker / Visio Online</h1>
+		<p>
+			draw.io (formerly Diagramly) is free online diagram software. You can use it as a flowchart maker, network diagram software, to create UML online, as an ER diagram tool, 
+			to design database schema, to build BPMN online, as a circuit diagram maker, and more. It's targetted as a 90% functionality online Visio alternative and includes Visio format import.
+		</p>
+	</div>
+	<div class="geBlock" style="text-align:center;">
+		<h3 id="geStatus">Loading... Please ensure JavaScript is enabled</h3>
+	</div>
+</div>
+<div id="geFooter" style="visibility:hidden;">
+	<table width="100%" height="100%" align="right" style="font-size:0.9em;">
+	  <tr>
+		<td id="gePowered" width="33%" valign="top" align="left" style="white-space:nowrap;overflow:hidden;padding-left:8px;padding-top:9px;padding-right:8px;_padding-right:16px;"> 
+	      <a title="HTML5 JavaScript Diagramming" href="https://www.jgraph.com/mxgraph.html" target="_blank" style="text-decoration:none;">
+	        JavaScript Graph Visualization
+	      </a>
+	    </td>
+		<td id="gePlug1" width="34%" valign="top" align="center" style="overflow:hidden;padding-top:9px;padding-right:8px;_padding-right:16px;">
+		  <a title="JIRA Plugin" href="https://marketplace.atlassian.com/plugins/com.mxgraph.jira.plugins.drawio" target="_blank" style="text-decoration:none">
+	      	JIRA / 
+	      </a>
+	      <a title="Confluence Plugin" href="https://marketplace.atlassian.com/plugins/com.mxgraph.confluence.plugins.diagramly" target="_blank" style="text-decoration:none">
+	      	Confluence Plugin
+	      </a>
+	    </td>
+	    <td id="geSocial" width="33%" valign="top" align="right" style="overflow:hidden;padding-top:3px;padding-right:6px;"> 
+	      	<a href="https://support.draw.io/blog/DO" title="Diagramming Blog" target="_blank"><img border="0" src="images/glyphicons_blogger.png" alt="draw.io Blog"/></a>
+	      	&nbsp;
+	      	<a href="https://plus.google.com/u/0/+DrawIo1/posts" title="draw.io on Google+" target="_blank"><img border="0" src="images/glyphicons_google.png" alt="draw.io on Google+"/></a>
+	      	&nbsp;
+	      	<a href="https://www.facebook.com/pages/drawio/161015263923018" title="draw.io on Facebook" target="_blank"><img border="0" src="images/glyphicons_facebook.png" alt="draw.io on Facebook"/></a>
+	      	&nbsp;
+	      	<a href="https://www.twitter.com/drawio" title="draw.io on Twitter" target="_blank"><img border="0" src="images/glyphicons_twitter.png" alt="draw.io on Twitter"/></a>
+	    </td>
+	  </tr>
+	</table>
+</div>
+<script type="text/javascript">
+/**
+ * NOTE: DOES NOT WORK INSIDE A FUNCTION.
+ */
+if (urlParams['analytics'] != '0' && urlParams['dev'] != '1' && urlParams['chrome'] != '0')
+{
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-78007-10', 'auto');
+		  ga('send', 'pageview');
+}
+
+(function()
+{
+	var lastErrorMessage = null;
+	
+	// Changes top level error handling
+	window.onerror = function(message, url, linenumber)
+	{
+		try
+		{
+			if (message == lastErrorMessage ||
+				(message != null && url != null &&
+				((message.indexOf('Script error') != -1) ||
+				(message.indexOf('extension') != -1))))
+			{
+				// TODO log external domain script failure "Script error." is
+				// reported when the error occurs in a script that is hosted
+				// on a domain other than the domain of the current page
+			}
+			else
+			{
+				lastErrorMessage = message;
+				var img = new Image();
+	    		img.src = "images/2x2.png?msg=" + encodeURIComponent(message) + "&url=" + encodeURIComponent(url) + "&lnum=" + encodeURIComponent(linenumber) + "&v=" + encodeURIComponent(EditorUi.VERSION);
+			}
+		}
+		catch (err)
+		{
+			// do nothing
+		}
+	};
+
+	/**
+	 * Color dialog - Do not add to app.min.js due to path issues!
+	 */
+	if (urlParams['chrome'] != '0')
+	{
+		mxscript('js/jscolor/jscolor.js');
+	}
+
+	if (uiTheme == 'atlas')
+	{
+		mxClient.link('stylesheet', 'styles/atlas.css');
+	}
+
+	/**
+	 * Injects offline dependencies
+	 */
+	if (urlParams['offline'] == '1')
+	{
+		mxscript('js/shapes.min.js');
+		
+		var frame = document.createElement('iframe');
+		frame.setAttribute('width', '0');
+		frame.setAttribute('height', '0');
+		frame.setAttribute('src', 'offline.html');
+		document.body.appendChild(frame);
+	
+		// Precaching for stencils. Alternatively we could generate
+		// a cache manifest with all stencil and shape files but this
+		// simplifies the cache file, streamlines the shape loading
+		// to a single loading point (here) vs dynamic loading in the
+		// online version. It does slow down the startup time though.
+		mxStencilRegistry.stencilSet = {};
+	
+		// Overrides dynamic loading (everything loaded at startup)
+		mxStencilRegistry.getStencil = function(name)
+		{
+			return mxStencilRegistry.stencils[name];
+		};
+
+		// Takes stencil data from cache for populating sidebar
+		mxStencilRegistry.loadStencilSet = function(stencilFile, postStencilLoad, force)
+		{
+			var name = stencilFile.substring(stencilFile.indexOf('/') + 1);
+			name = 'mxgraph.' + name.substring(0, name.length - 4).replace(/\//g, '.');
+			var node = mxStencilRegistry.stencilSet[name];
+			
+			if (node != null)
+			{
+				mxStencilRegistry.parseStencilSet(node, postStencilLoad, false);
+			}
+		};
+		
+		// Preload all stencils from merged XML file
+		var req2 = mxUtils.load('stencils.xml');
+		var root = req2.getXml().documentElement;
+		var node = root.firstChild;
+		
+		while (node != null)
+		{
+			if (node.nodeName == 'shapes' && node.getAttribute('name') != null)
+			{
+				mxStencilRegistry.stencilSet[node.getAttribute('name').toLowerCase()] = node;
+				mxStencilRegistry.parseStencilSet(node);
+			}
+			
+			node = node.nextSibling;
+		}
+	}
+	
+	/**
+	 * Loads Google Image Picker API
+	 */
+	if (urlParams['picker'] != '0' && !mxClient.IS_QUIRKS && document.documentMode != 8)
+	{
+		mxscript(document.location.protocol + '//www.google.com/jsapi?autoload=%7B%22modules%22%3A%5B%7B%22name%22%3A%22picker%22%2C%22version%22%3A%221%22%2C%22language%22%3A%22' + mxClient.language + '%22%7D%5D%7D');
+	}
+	
+	/**
+	 * Asynchronous MathJax extension.
+	 */
+	if (urlParams['math'] != '0')
+	{
+		var mathJaxQueue = [];
+		
+		// Disables global typesetting and messages on startup, adds queue for
+		// asynchronous rendering while MathJax is loading
+		window.MathJax =
+		{
+			skipStartupTypeset: true,
+			showMathMenu: false,
+			messageStyle: 'none',
+			AuthorInit: function ()
+			{
+				MathJax.Hub.Register.StartupHook('Begin', function()
+				{
+					for (var i = 0; i < mathJaxQueue.length; i++)
+					{
+						MathJax.Hub.Queue(['Typeset', MathJax.Hub, mathJaxQueue[i]]);
+					}
+				});
+		    }
+		};
+
+		// Adds global enqueue method for async rendering
+		window.MathJaxRender = function(container)
+		{
+			// Initial rendering when MathJax finished loading
+			if (typeof(MathJax) !== 'undefined' && typeof(MathJax.Hub) !== 'undefined')
+			{
+				MathJax.Hub.Queue(['Typeset', MathJax.Hub, container]);
+			}
+			else
+			{
+				mathJaxQueue.push(container);
+			}
+		}
+		
+		mxscript('js/mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML');
+	}
+
+	/**
+	 * For developers only
+	 */
+	if (urlParams['chrome'] != '0' && (urlParams['test'] == '1' || urlParams['dev'] == '1'))
+	{
+		mxLog.show();
+		mxLog.debug('Started in ' + (new Date().getTime() - t0.getTime()) + 'ms');
+		mxLog.debug('Export:', EXPORT_URL);
+		mxLog.debug('Development mode:', (urlParams['dev'] == '1') ? 'active' : 'inactive');
+		mxLog.debug('Test mode:', (urlParams['test'] == '1') ? 'active' : 'inactive');
+	}
+
+	// Restores app defaults for UI
+	App.prototype.formatEnabled = urlParams['format'] != '0';
+	App.prototype.formatWidth = mxSettings.getFormatWidth();
+
+	/**
+	 * Main
+	 */
+	var ui = new App(new Editor(urlParams['chrome'] == '0'));
+
+	// Saves app defaults for UI
+	ui.addListener('formatWidthChanged', function()
+	{
+		mxSettings.setFormatWidth(ui.formatWidth);
+		mxSettings.save();
+	});
+	
+	// Loads and executes the plugins
+	if (urlParams['offline'] != '1')
+	{
+		var plugins = mxSettings.getPlugins();
+
+		if (plugins != null && plugins.length > 0 && urlParams['plugins'] != '0')
+		{
+			// Global entry point for plugins is Draw.loadPlugin. This is the only
+			// long-term supported solution for access to the EditorUi instance.
+			window.Draw = new Object();
+			window.Draw.loadPlugin = function(callback)
+			{
+				callback(ui);
+			};
+			
+			if (plugins.length == 1 && (plugins[0].charAt(0) == '/' ||
+				plugins[0].indexOf(window.location.protocol + '//' + window.location.host) == 0))
+			{
+				mxscript(plugins[0]);
+			}
+			// Loads plugins asynchronously
+			else if (mxUtils.confirm(mxResources.get('pluginWarning', [plugins.join('\n')]).replace(/\\n/g, '\n')))
+			{
+				for (var i = 0; i < plugins.length; i++)
+				{
+					mxscript(plugins[i]);
+				}
+			}
+		}
+	}
+})();
+</script>
+</body>
+</html>

@@ -151,12 +151,12 @@ void initDACout(void)
 	 *Period : Number of raw samples to repeatedly output
 	 *Buffer : LUT ( look up table),stores raw samples to output
 	 */
-		int wavPeriodTri = DAC_Period/16;
+		int wavPeriodTri = DAC_Period/4;
 	 for(int i=0;i<DAC_Period;i++)
 	 {
 			//DAC_raw[i] =500*(U(i-25));
-			DAC_raw[i] = 150*sin(i*0.0628/4)+500;//+150*cos(i*0.0628*2); //0.0628 => after period of 100 dataBins
-			//DAC_raw[i] =(i%wavPeriodTri+U(i-wavPeriodTri/2)*(wavPeriodTri-2*(i%wavPeriodTri)))*1024/wavPeriodTri;
+			//DAC_raw[i] = 150*sin(i*0.628/4)+500;//+150*cos(i*0.0628*2); //0.0628 => after period of 100 dataBins
+			DAC_raw[i] =(i%wavPeriodTri+U(i-wavPeriodTri/2)*(wavPeriodTri-2*(i%wavPeriodTri)))*1024/wavPeriodTri;
 			DAC_raw[i] = DAC_raw[i]<<6;		// make it ready to write directly ot DACR register;
 	 }
 	 
@@ -209,8 +209,8 @@ void oscilloscope(void)
 			/*--DISPLAY FOR FFT BY VARIOUS MEANS--*/
 			//displayFFT_Plot(AD0_raw,samples,COLOR_RED,true);							// if to plot single FFT Plot for channel 0
 			//displayFFT_Plot(AD1_raw,samples,COLOR_BLUE);									// if to plot single FFT Plot for channel 1
-			displayFFT_PlotMix(AD0_raw,AD1_raw,samples,COLOR_RED,COLOR_BLUE);			// Mix=>both channel 0 and 1 
-			//displayFFT_fix(AD0_raw,AD1_raw,samples,COLOR_RED,COLOR_BLUE);				//fastest integer method ( for both channel 0 & 1 )
+			//displayFFT_PlotMix(AD0_raw,AD1_raw,samples,COLOR_RED,COLOR_BLUE);			// Mix=>both channel 0 and 1 
+			displayFFT_fix(AD0_raw,AD1_raw,samples,COLOR_RED,COLOR_BLUE);				//fastest integer method ( for both channel 0 & 1 )
 			
 			displayDrawBackgroundGraph(); // purposly placed here as FFT plotting takes time
 			displayGraph(AD0_raw,samples,COLOR_GREEN);		// plots channel0 Voltage vs time
@@ -221,7 +221,7 @@ void oscilloscope(void)
 			//following there can be  custom methods defined (if required ) 
 			// such as calculating average value of waveform in given period 
 			// this will reduce overall framerate 
-			long avg = 0;
+		/*	long avg = 0;
 			
 			for(int i=0;i <100 ;i++)avg+=AD0_raw[i];
 			avg/=100;
@@ -230,6 +230,7 @@ void oscilloscope(void)
 			sprintf(buf,"Vmean = %d",avg);
 			lcd.drawText(0,0,buf,COLOR_WHITE);
 			lcd.drawText(20,0,"CH0", COLOR_GREEN);
+			*/
 			//enable timer0 again
 			initTimer0();
 			EnableInterruptSampling();
@@ -248,12 +249,13 @@ void oscilloscope(void)
 void displayDrawBackgroundFFT(void)
 {
 		lcd.setOrientation(0);
-		lcd._setWindow(ILI9225_LCD_WIDTH/2,0,ILI9225_LCD_WIDTH-1	,samples/2-1);
+		
 		int yInterval=samples/2;
 		int xInterval=ILI9225_LCD_WIDTH/2;	
+		lcd._setWindow(xInterval,0,2*xInterval-1	,yInterval-1);
 		lcd._rs.high();
 		for(int y=0;y<yInterval;y++)
-		for(int x=0;x<ILI9225_LCD_WIDTH/2;x++)
+		for(int x=0;x<xInterval;x++)
 		{	
 				if(x%20	==0||y%10==0)lcdWrite(COLOR_DARKRED);//lcdWrite(COLOR_DARKGREEN);
 				else lcdWrite(COLOR_BLACK);
@@ -439,7 +441,7 @@ void displayFFT_Plot(int* graphData, int len, int color,bool isBackground)
 											fftBins[i].Re,i,color);
 				}
 }
-
+int  fpmi=0;
 void displayFFT_PlotMix(int * graphData1,int * graphData2,int len, int color1,int color2 )
 {
 	complex fftBins[samples];
@@ -467,32 +469,41 @@ void displayFFT_PlotMix(int * graphData1,int * graphData2,int len, int color1,in
 	
 	float max=0;
 	float lcdHalfWidth = ILI9225_LCD_WIDTH/2;
-	for(int i=0; i<samples; i++)
+	//transform points in log vs freq domain
+	// linear->log
+	/*for(int i=0; i<samples; i++)
 	{
 		fftBins[i].Re = log(fftBins[i].Re);
 		fftBins[i].Im = log(fftBins[i].Im);
-	}
-	
-	for(int i=0;i<lenHalf;i++)	if(fftBins[i].Re>max)max=fftBins[i].Re;
+	}*/
+	//find maximum for fft real part and scale
+	for(int i=5;i<lenHalf;i++)	if(fftBins[i].Re>max)max=fftBins[i].Re;
 	if(max<10)max=10;
 	for(int i=0;i<samples;i++)
 	{
 			fftBins[i].Re=lcdHalfWidth*fftBins[i].Re/max+lcdHalfWidth;
 	}
+	//find maximum for fft imaginary part and scale
 	float max1=0;
-	for(int i=0;i<lenHalf;i++)	if(fftBins[i].Im>max1)max1=fftBins[i].Im;
+	for(int i=5;i<lenHalf;i++)	if(fftBins[i].Im>max1)max1=fftBins[i].Im;
 	if(max1<10)max1=10;
 	for(int i=0;i<samples;i++)
 	{
 			fftBins[i].Im=lcdHalfWidth*fftBins[i].Im/max1+lcdHalfWidth;
 	}
 	
-	displayDrawBackgroundFFT();
-	for(int i=1; i<lenHalf;i++){
-						if(fftBins[i-1].Re<=ILI9225_LCD_WIDTH)
-						lcd.drawLine(fftBins[i-1].Re,(i-1),fftBins[i].Re,i,color1);
-						if(fftBins[i-1].Im<=ILI9225_LCD_WIDTH)
-						lcd.drawLine(fftBins[i-1].Im,(i-1),fftBins[i].Im,i,color2);
+	//displayDrawBackgroundFFT();
+	lcd.setOrientation(0);
+	lcd._setWindow(0,0,ILI9225_LCD_WIDTH-1,ILI9225_LCD_HEIGHT-1);
+	lcd._rs.high();
+	for(int i=1; i<lenHalf;i=i+1){
+						if(fftBins[i-1].Re<=ILI9225_LCD_WIDTH)//lcd.drawPixel(fftBins[i].Re-fpmi,i+fpmi,color2+64*fpmi);
+						lcd.drawLine(fftBins[i-1].Re-fpmi,(i-1)+fpmi,fftBins[i].Re-fpmi,i+fpmi,color1+64*fpmi);
+						//if(fftBins[i-1].Im<=ILI9225_LCD_WIDTH)lcd.drawPixel(fftBins[i].Im-fpmi,i+fpmi,color2+64*fpmi);
+						//lcd.drawLine(fftBins[i-1].Im-fpmi,(i-1)+fpmi,fftBins[i].Im-fpmi,i+fpmi,color2+64*fpmi);
+						
 				}
+				fpmi+=1;
+				if(fpmi>lcdHalfWidth)fpmi=0;
 }
 

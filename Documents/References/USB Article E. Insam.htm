@@ -1,0 +1,983 @@
+ 
+<html>
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<link rel=Edit-Time-Data href="./article_files/editdata.mso">
+<title>USB Article E. Insam</title>
+<style><!--
+.Normal
+	{font-size:10.0pt;
+	font-family:Arial;}
+-->
+</style>
+</head>
+<body lang=EN-GB link=blue vlink=purple class="Normal" bgcolor="#ffffff">
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'>A SIMPLE USB OSCILLOSCOPE FOR THE PC </span></b></p>
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'>PART I </span></b></p>
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'>By Dr Eddie Insam </span></b></p>
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'><font size="3"> Copyright© 2002 Eddy Insam - email: 
+  edinsam@eix.co.uk </font></span></b></p>
+<h1 align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'><font size="2">Published In Electronics World: February/March 
+  2002 </font></span></b></h1>
+<p align=center style='text-align:center'><font size="2"><span lang=EN-US
+style='font-size:14.0pt;'>Printed Copies of this article can be obtained from 
+  Electronics World. </span></font></p>
+<h1 align=center style='text-align:center'><font size="1"><b><span lang=EN-US
+style='font-size:14.0pt;'><font size="2">Anne Boleyn House. 9-13 Ewell Road, Cheam 
+  Surrey SM3 8BZ UK or by email: jackie.lowe@cumulusmedia.co.uk </font></span></b></font></h1>
+<p align=center style='text-align:center'><font size="3"><b><span lang=EN-US
+style='font-size:14.0pt;'><font size="2">No part can be copied without the express 
+  authority from the author </font></span></b></font></p>
+<p align=center style='text-align:center'>&nbsp;</p>
+<p><b><span lang=EN-US>Abstract Box</span></b></p>
+<p><span lang=EN-US>If you are thinking about adding a USB interface between your 
+  project and a PC, read on. Implementing USB is now easier than you think. Eddy 
+  Insam will show you how. </span></p>
+<p>&nbsp;</p>
+<p><span lang=EN-US>The USB (Universal Serial Bus) provides a new way of interfacing 
+  low and medium speed peripherals to personal computers. That old workhorse, 
+  the RS232 connector, is fast becoming obsolete, even becoming absent in newly 
+  purchased PCs. </span></p>
+<p>The new USB standards are rather complex when compared to RS232. To make things 
+  worse, there is no easy route for designers wanting to add USB capabilities 
+  to their products that need to communicate with PCs.  Fortunately, this situation 
+  is changing. New devices are available that make this job easier. So easy in 
+  fact, that now you do not need to know anything about USB. </p>
+<p>In Part I of this article, I shall cover the very basics of USB and show in 
+  simple sketches how it all works. In Part II, I  shall use, as a practical example, 
+  a simple oscilloscope project to show how easy it is to implement USB in your 
+  own designs. </p>
+<p><b><span lang=EN-US>What is USB - In a Nutshell</span></b></p>
+<p><span lang=EN-US>I shall not be describing the inner workings of USB in any 
+  precise detail. For this, refer to the excellent article by Tom Wong mentioned 
+  in the reference section. I shall only cover here those aspects that are relevant 
+  to an applications designer.</span></p>
+<p>USB uses a time-shared serial data stream. The PC acts as a master by polling 
+  all connected peripherals at regular intervals of one mS. Each peripheral responds 
+  by placing its data on the time multiplexed bus at their allocated time within 
+  this 1mS frame. An addressing scheme allows up to 127 devices to be connected 
+  to the bus.  </p>
+<p>The current version of USB (V1.1) supports two speed modes (12Mbit/s and 1.5Mbit/s). 
+  These are selected in the hardware by tying one of the data lines to a supply 
+  via a pull-up resistor. The two speeds can live together, fast and slow speed 
+  bursts can co-exist on the same wire.  </p>
+<p><span lang=EN-US>USB uses a four-wire cable system. Two leads are used for 
+  power (5volt and gnd), the other two for differential data. Unbalanced data 
+  patterns are used to transfer special “end” codes. Different physical connectors 
+  are used for “upstream” and “downstream” connections. This is to avoid the user 
+  getting confused. <b>Fig1.</b> </span></p>
+<p><img width=693 height=262
+src="image002.gif" align=absmiddle hspace=12
+alt="Text Box:  &#13;&#10;Fig 1 (also as separate file fig1.ai)&#13;&#10;USB connectors: These are known as type “A” and “B”. Looking closely inside a plug, pins 1 and 4 for the supply lines are a little longer than the other two for data. When the cable is plugged in, the supply lines are connected first, allowing the peripheral to power up before the data lines are connected. This also reduces the risk of electrostatic damage.&#13;&#10;"
+v:shapes="_x0000_s1026"><span lang=EN-US></span></p>
+<p>Peripherals are not just wired together, but are connected to the PC via a 
+  tree of hubs. A typical PC will have an internal hub supporting two USB sockets 
+  on its back plane. If you need to attach more than two USB peripherals, you 
+  must purchase an external hub and attach it to one of the spare ports on your 
+  PC, then connect your peripheral to the new hub, this is somewhat like a mains 
+  extension lead.  </p>
+<p><span lang=EN-US>The above is, as you would expect, only the simple version 
+  of events, with many extras and options under the surface. If you are new to 
+  USB, you should not be surprised to hear that there is already a new version 
+  of the standard with even more capabilities (Version 2). For the moment, we 
+  shall concentrate only on the present version (Ver1.1).</span></p>
+<p><b><span lang=EN-US>The Protocol</span></b></p>
+<p><span lang=EN-US>As already mentioned, the USB is a single master bus, with 
+  all requests for activity originating from the PC. Data is transferred in packet 
+  bursts contained within frames separated by 1 mS. Low speed devices operate 
+  at a rate of 1.5Mbit/s, and the bit length is 667nS. Similarly, fast speed devices 
+  operate at 12Mbit/s and the bit length is 83.3nS.</span></p>
+<p><span lang=EN-US>USB peripherals have to synchronise their outputs to the frame 
+  start, so internal buffers are generally necessary to maintain a constant flow 
+  of data. The bit rate clock is recovered from the NRZI encoded data stream <b>Fig2.</b></span></p>
+<p><img width=698 height=538
+src="image004.gif" align=middle hspace=12
+alt="Text Box:  &#13;&#10;Fig 2 (also as separate file fig2.ai)&#13;&#10;All USB transactions are performed in 1mSec frames initiated by the PC. Time division multiplexing is used to separate packets or transactions from different sources within each frame. &#13;&#10;&#13;&#10;"
+v:shapes="_x0000_s1027"><span lang=EN-US></span></p>
+<p><span lang=EN-US>A typical USB peripheral may have more than one “endpoint”. 
+  Endpoints are nothing more than different destination registers sharing the 
+  same device address. Different endpoints can be used for initialisation and 
+  control, and for ordinary data transfers. USB uses the term “pipe” to denote 
+  a data transfer from the PC to a particular endpoint. To increase data rate, 
+  a peripheral may occupy more than one pipe at a time. </span></p>
+<p><span lang=EN-US>There are four basic methods of transferring information between 
+  a PC and a USB peripheral:</span></p>
+<p><b><span lang=EN-US>Control -Transfer:</span></b><span lang=EN-US> Used mainly 
+  to send control signals to the peripheral. These have high priority and incorporate 
+  inbuilt error protection. It is mainly used for transferring initialisation 
+  information, but can also be used for general-purpose low speed data transfers. 
+  All USB devices must support Control Transfers. </span></p>
+<p><b><span lang=EN-US>Bulk - Transfer:</span></b><span lang=EN-US> Used mainly 
+  by storage devices to transfer large amounts of data in a time independent manner. 
+  This is useful for printers, disk drivers etc. This method has low priority 
+  on the bus.</span></p>
+<p><b><span lang=EN-US>Interrupt - Transfer:</span></b> Used mainly by low speed 
+  data peripherals such as mice and keyboards that need to send small amounts 
+  of data quickly and periodically to the PC.    </p>
+<p><b><span lang=EN-US>Isochronous - Transfer:</span></b> Used by peripherals 
+  transferring large amounts of data at a defined data rate, e.g. soundcards. 
+  No error protection is included. The system must assume that some data may be 
+  lost.   </p>
+<p><span lang=EN-US>The above are summarised in the following table. Even though 
+  USB is rated at 12Mbit/s, the final effective data rate in some cases can be 
+  quite low. For an error protected control link using the low speed bus for example, 
+  the guaranteed data rate is limited to only 800 bytes per second.</span></p>
+<p><span> </span></p>
+<table border=1 cellspacing=0 cellpadding=0 align="center">
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><b><span
+  lang=EN-US>Transfer Type</span></b></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><b><span
+  lang=EN-US>Control</span></b></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><b><span
+  lang=EN-US>Bulk</span></b></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><b><span
+  lang=EN-US>Interrupt</span></b></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><b><span
+  lang=EN-US>Isochronous</span></b></p>
+    </td>
+  </tr>
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p><span lang=EN-US>Data bytes/millisecond per transfer, maximum possible 
+        per pipe (full speed)</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>832, in thirteen 
+        64-byte transactions</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>1216, in nineteen 
+        64-byte transactions</span></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>64</span></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>1023</span></p>
+    </td>
+  </tr>
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p><span lang=EN-US>Data bytes/millisecond per transfer, maximum possible 
+        per pipe (low speed)</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>24, in three 
+        8-byte transactions</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>not allowed</span></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>0.8, 8 bytes 
+        per 10 milliseconds</span></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>not allowed</span></p>
+    </td>
+  </tr>
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p><span lang=EN-US>Reserved bandwidth for all transfers of the type, max 
+        %</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>10%</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>none</span></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>90%</span></p>
+      <p align=center style='text-align:center'><span lang=EN-US>Int &amp; Iso 
+        combined</span></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>90%</span></p>
+      <p align=center style='text-align:center'><span lang=EN-US>Int &amp; Iso 
+        combined</span></p>
+    </td>
+  </tr>
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p><span lang=EN-US>Error correction?</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+  </tr>
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p><span lang=EN-US>Guaranteed Delivery rate?</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>no</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>no</span></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>no</span></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+  </tr>
+  <tr> 
+    <td width=182 valign=top class="Normal"> 
+      <p><span lang=EN-US>Guaranteed latency (max time between transfers)?</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>no</span></p>
+    </td>
+    <td width=125 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>no</span></p>
+    </td>
+    <td width=135 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+    <td width=130 valign=top class="Normal"> 
+      <p align=center style='text-align:center'><span lang=EN-US>yes</span></p>
+    </td>
+  </tr>
+</table>
+<p><b><span lang=EN-US>THE PC Side of Things </span></b></p>
+<p>Most PCs now include one or two USB connector sockets at the back. Support 
+  for USB is via kernel level device drivers in the operating system. Therefore, 
+  if you do not have a driver installed, the USB port will not be available to 
+  you. This is very different from the good old times of parallel and serial ports 
+  where you could access the interface chips directly from your applications program. 
+  Each USB peripheral requires a driver of its own “class”.  These low level drivers 
+  are usually supplied with the peripheral when purchased. Peripherals are recognised 
+  one by one by the operating system during the boot-up sequence, which also causes 
+  the right drivers to be loaded.  USB is a “hot wire” protocol. The PC can also 
+  recognise when a peripheral has been plugged or unplugged during normal work, 
+  and is able to load or unload the corresponding driver at the same time. This 
+  makes USB more or less transparent to the user.</p>
+<p>In case you have not thought about the situation, most BIOS will also include 
+  some form of built in primitive USB support for keyboard and mice, so these 
+  can be recognised as such before the boot sequence and before Windows starts.  
+</p>
+<p><span lang=EN-US>Windows includes a number of “ready made” USB drivers for 
+  interfaces going under the generic name of HID (human interface devices). These 
+  consist of mice, keyboards, pointers and joysticks. This allows a generic product 
+  such as a mouse, to be plugged in without having to install a special driver. 
+  </span></p>
+<p><span lang=EN-US>The installation procedure is very simple. When the peripheral 
+  is plugged in, a polling signal by the hub causes Windows to send signals on 
+  the USB asking for identification. The peripheral responds with its own PID 
+  and VID (Product and Vendor IDs). Windows then searches its directories for 
+  the correct driver assigned to that particular peripheral. If it cannot find 
+  one, it pops up a message requesting the user to install one. The drivers are 
+  usually supplied on floppy or CD. Once the driver is installed, the application 
+  program carries on as normal. </span></p>
+<p><b><span lang=EN-US>How to Implement USB in your Project</span></b></p>
+<p><span lang=EN-US>If you wanted to add an RS232 interface to your product, you 
+  only needed to write simple comms software to drive or emulate a UART, add a 
+  small amount of RS232 level shifting hardware and then write some simple protocol 
+  to transfer the data, perhaps using some simple error correction scheme.</span></p>
+<p><span lang=EN-US>Adding USB is a lot more difficult. You have few choices. 
+  You could obtain a micro controller with built in USB capabilities and develop 
+  your project around it, i.e. using its hardware functions and instruction set. 
+  On the other hand, you could buy a USB device designed as a peripheral, and 
+  interface it into your project. In both cases, you need to understand quite 
+  a bit about USB. </span></p>
+<p><span lang=EN-US>Many manufacturers offer microprocessor with built in USB 
+  capabilities. Cypress, Microchip and Philips among them. These range from simple 
+  devices with just enough memory and processing power for the simplest of tasks, 
+  i.e. keyboard or mouse, to devices built around more advanced cores such as 
+  the 8051 with a varied range of features. USB support is provided in the form 
+  of firmware subroutines, which you link into your own code. In practice, the 
+  USB add-ons can take quite a big chunk of the microprocessors memory space and 
+  power.</span></p>
+<p><span>  </span></p>
+<p>Your involvement also includes creating the Product and Vendor description 
+  tables. Most of the information here will be provided by the chip manufacturer, 
+  and may need to be customised for your mode of operation. You will need to obtain 
+  your own unique Vendor and Product IDs. These numbers make your peripheral uniquely 
+  recognisable by the operating system in order to load the right driver. For 
+  development and testing you can use the IDs allocated to the USB interface chip 
+  you are using, this is perfectly legal (more on this later).   </p>
+<p><span lang=EN-US>The USB cable can provide some power for the peripheral. However, 
+  you should be conversant with the USB specifications, which allow for up to 
+  500mA to be drawn when the peripheral is active, but only 500uA when inactive. 
+  This means you have to provide for means of switching the power off while the 
+  USB is in the suspend state.</span></p>
+<p>As I shall be discussing soon, there is now the option of incorporating USB 
+  without any frills. This becomes no more complicated than adding an 8 bit parallel 
+  port buffer to your micro. You need to know nothing about USB, or even how it 
+  works. So, you can more or less forget everything I said.  </p>
+<p><b><span lang=EN-US>How about the PC end? </span></b></p>
+<p><span lang=EN-US>Having developed your USB hardware and firmware on your peripheral, 
+  you will still need to write a bit of software to go at the PC end. You will 
+  need to write a low level driver. You will need a different driver for each 
+  type of platform. Fortunately, there is a certain degree of commonality among 
+  Windows versions, so the same driver could be used for Windows 98, ME and 2000. 
+  (Native NT does not support USB). A different set of drivers will be needed 
+  for Mac and Unix/Linux however. </span></p>
+<p><span lang=EN-US>Windows supports a range of basic ready made HID (human interface 
+  device) drivers off the peg, so if your project is one of these, call yourself 
+  lucky as you will not need to craft your own driver. In addition to HIDs, there 
+  are standard USB classes for sound cards, frame grabbers and printers. Most 
+  likely, your project will not fit into any of these categories, so you will 
+  need to brew your own. </span></p>
+<p>If you need to develop your own driver, there is some limited help available. 
+  The DDK Device Development Kit from Microsoft contains templates and samples 
+  of drivers for the most common USB applications. In addition, many samples and 
+  information notes are available for downloading from the Internet.  Still, writing 
+  a device driver is not a trivial exercise. Poorly written drivers can cause 
+  unexpected crashes and can make life very difficult for the inexperienced programmer.   
+</p>
+<p><span lang=EN-US>Writing the driver is not the end of the story. You will need 
+  to adapt your application program to communicate with the driver. Windows programmer 
+  can use the <i>CreateFile</i> and <i>DeviceIOControl</i> API functions to communicate 
+  with USB peripherals. Fortunately, these are relatively easy to use. </span></p>
+<p><span> </span></p>
+<p><b><span lang=EN-US>Ready to Bake USB </span></b></p>
+<p>As I mentioned before, there is now a simple no brains way of adding USB to 
+  your project. By this, I mean at both ends - the PC software too - is reduced 
+  to the lowest level of simplicity.  </p>
+<p>The project in this article is based on the FT8U245AM device manufactured by 
+  FTDI Ltd in Scotland, (<i>www.ftdichip.com</i>).  This chip comes as a 32 pin 
+  surface mount MQFP miniature package. To work, the chip only requires a 6MHz 
+  crystal, some passives and the USB socket, <b>Fig3</b>. The chip interfaces 
+  to an external microprocessor via an 8 bit parallel port and four read write 
+  and control lines. From the micro’s point of view, the FT245 chip looks like 
+  a 384 byte FIFO buffer for transmit, and a 128 byte FIFO buffer on receive. 
+  The FT245 works in the full USB speed mode and can transfer data at around 1 
+  Megabyte per second. </p>
+<p>Using this chip is as simple as connecting a 74HC245 buffer to one of your 
+  micro parallel ports (maybe this has something to do with the naming of the 
+  device).  The FTDI chip hides all the USB intricacies from the user. To transmit 
+  a byte, you place your 8 bit data on the parallel bus, poll the “transmit buffer 
+  available” signal (/TXE) until it goes low, and then pulse the WR control line 
+  to push your byte into the transmit FIFO. To receive a byte, you poll the “byte 
+  available” signal RXE. This tells you that a byte is available for reading. 
+  You read it by pulsing the RD control line. That is all there is to it. Nothing 
+  could be simpler. </p>
+<p>&nbsp;</p>
+<p><img width=698 height=373
+src="image006.gif" align=absbottom hspace=12
+alt="Text Box:  &#13;&#10;&#13;&#10;Fig 3 (also as separate file fig3.ai)&#13;&#10;This is all the front-end hardware you need to add USB to your project. It connects to your micro via 8 parallel lines and four simple read/write and control lines. The FT245 chip contains an internal 384 byte FIFO character transmit buffer and a 128 byte receive FIFO buffer. The transfer rate can be up to 1 megabyte per second. The optional EEPROM can be used to store manufacturer’s unique ID information.&#13;&#10;&#13;&#10;&#13;&#10;"
+v:shapes="_x0000_s1028"><span lang=EN-US></span></p>
+<p><span lang=EN-US>To make life even simpler, a piggyback module known as USBMOD2 
+  is available from FTDI. This incorporates the FT245 chip, a 6MHZ crystal, a 
+  USB socket, and the required passive components onto a 23 pin piggyback module. 
+  This is ideal for prototyping as it can plug directly into a 32 pin bread-boarding 
+  socket Fig<b> 4</b>. </span></p>
+<p><span lang=EN-US>You may be wondering whether you still need to be involved 
+  in writing device drivers. There is no need, the drivers supplied by FTDI makes 
+  the USB interface appear to your PC as a regular comms port. Therefore, if your 
+  PC project software was written with the serial port in mind, you will have 
+  little work to do. </span></p>
+<p><img width=698 height=248
+src="image008.gif" align=absmiddle hspace=12
+alt="Text Box:  &#13;&#10;&#13;&#10;Fig 4 (also a separate file fig4.jpg)&#13;&#10;The piggyback module from FTDI. Some extra components underneath the board add internal reset and decoupling. The module can be plugged into a breadboard for development.&#13;&#10;&#13;&#10;"
+v:shapes="_x0000_s1029"><span lang=EN-US></span></p>
+<p><b><span lang=EN-US>Instant Satisfaction - Testing The Module </span></b></p>
+<p>On receiving the module, it took me less than a few minutes to install the 
+  driver on my Windows PC. I was able to go to the Control Panel, under Device 
+  Manager, and see a new entry (COM3) added to the listing of my available comms 
+  ports.  </p>
+<p><img width=698 height=267
+src="image010.gif" align=middle hspace=12
+alt="Text Box:  &#13;&#10;&#13;&#10;Fig 5 (also as separate file fig5.ai)&#13;&#10;USB Christmas lights: A simple test rig for the module. Just connect it to your PC running a standard terminal comms program set for the newly allocated comms port. The lights will flash as you type characters. The capacitor is needed to derive a short RD pulse from the RXEmpty signal.   &#13;&#10;&#13;&#10;"
+v:shapes="_x0000_s1030"></p>
+<p>&nbsp;</p>
+<p><span lang=EN-US>I plugged the module into a breadboard plug-in strip. I then 
+  connected a few LEDs directly to the data ports, and a 100n capacitor to crudely 
+  generate a RD pulse from the RXE line <b>Fig5</b>. No power supply was necessary 
+  as the USB module is powered from the cable itself. I then went to my PC and 
+  opened a simple terminal program opened on COM3, typing some characters. The 
+  LEDs flickered in perfect harmony. Total time, less than fifteen minutes. Not 
+  bad.</span></p>
+<p><span lang=EN-US>Next month I shall describe the circuit required to turn this 
+  module into a simple fast voltmeter/oscilloscope. </span></p>
+<p><b><span lang=EN-US>Obtaining the parts</span></b></p>
+<p>The USB module is available from FTDI in the UK for £23.50 inc VAT and pp. 
+  The company has local Agents in the US and Australia.  Check their website <i>www.ftdichip.com</i> 
+  for more up to date details on pricing and availability. </p>
+<p><span lang=EN-US>An alternative device FT232 provides a serial output instead 
+  of a parallel one. This could be used as a direct replacement for systems using 
+  legacy RS232 interfaces. Full information is available from the FTDI website. 
+  </span></p>
+<p><b><span lang=EN-US>The Author</span></b></p>
+<p><span lang=EN-US>Dr Eddy Insam is a consultant in innovative applications of 
+  telecommunications and specialises in graphics and signal processing. He can 
+  be reached on <i>edinsam@eix.co.uk</i>.</span></p>
+<p><b><span lang=EN-US>For More Information</span></b></p>
+<p><span lang=EN-US>Tony Wong “Understanding USB” Electronics World, November 
+  1999. A very good article describing the inner workings of USB.</span></p>
+<p><i><span lang=EN-US>http://www.usb.org</span></i> The website of the USB organisation.  
+</p>
+<p><i><span lang=EN-US>http://www.ftdichip.com</span></i><span
+lang=EN-US> For more information on the USB chip and module. </span></p>
+<p><span lang=EN-US>J. Hyde “USB Design by Example” Wiley, NY 1999. <i>http://www.usb-by-example.com</i></span></p>
+<p><span lang=EN-US>j. Axelson “USB Complete” Lakeview Research 1999. <i>http://www.lvr.com</i></span></p>
+<p><span lang=EN-US>These are two good reference books on USB. They contain many 
+  examples and background information.</span></p>
+<span lang=EN-US style='font-size:10.0pt;font-family:
+Arial;'><br clear=all
+style='page-break-before:always'>
+</span> 
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'>A SIMPLE USB OSCILLOSCOPE FOR THE PC</span></b></p>
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'>PART II</span></b></p>
+<p align=center style='text-align:center'><b><span lang=EN-US
+style='font-size:14.0pt;'>Eddy Insam</span></b></p>
+<p>In Part I, I described the basics of USB. This month I shall show how simple 
+  it is to convert this into a useful product, in this case a simple oscilloscope 
+  probe. The sampling rate may not be very exciting for RF people, but can be 
+  perfectly acceptable for audio and teaching work.   </p>
+<p><b><span lang=EN-US>Fig 6</span></b><span
+lang=EN-US> shows the basic concept. I used a Texas Instruments TLC5510 flash 
+  A/D Converter (you can also use the faster version TLC5540). These are cheap, 
+  fast CMOS devices that take very little current. They also require the minimum 
+  of interfacing as can be seen. As all the chips are surface mount, and the whole 
+  circuit is small enough to fit into a hand held probe. </span></p>
+<p><img width=698 height=373
+src="image012.gif" align=absmiddle hspace=12
+alt="Text Box:  &#13;&#10;Fig 6 (also as separate file fig6.ai)&#13;&#10;Simple USB oscilloscope: A high speed A/D converter drives the USB module directly.  Maximum clock rate is about 1MHz, resulting in a bandwidth limit of about 500KHz. As shown, the input range is from 0 to 2volts. Extra analogue input circuitry will be required for voltage level shifting and gain adjustment. Circuit layout is quite critical as the converter is highly susceptible to spikes and noise.       &#13;&#10;"
+v:shapes="_x0000_s1036"><span lang=EN-US></span></p>
+<p><span lang=EN-US>The circuit works as follows: the 74HC132 Schmitt trigger 
+  chain forms a simple relaxation oscillator gated by the TXE “buffer data available” 
+  signal from the USB module. This simple arrangement produces write clock pulses 
+  for the module and in slightly delayed form, for the A/D converter. The gating 
+  ensures clocks are only generated when the USB module is ready to accept them.</span></p>
+<p><span> </span></p>
+<p>When testing, note that the clock will only run if there is a program at the 
+  PC end “reading” the data, otherwise the transmit FIFO fills up and the module 
+  just stops taking data.  The oscillator frequency sets the A/D sampling rate. 
+  Because of USB transfer limits, the maximum rate will be about 1MHz. However, 
+  the application program in your PC may not be able to accept this data continuously, 
+  especially if you have other fast USB peripherals connected (e.g. sound cards 
+  or video grabbers).</p>
+<p><b><span lang=EN-US>Fig7</span></b><span
+lang=EN-US> shows a section of the same circuit showing how a two-trace version 
+  of the scope could be implemented. I have used two A/D converters, as it is 
+  easier (and possibly cheaper) to do it this way than try to arrange for an analogue 
+  switch on the input. As we now need to take two readings per sample, the overall 
+  sampling rate will be halved, reducing the effective bandwidth to 250KHz, still 
+  good enough for audio work. The principle can be extended to 4 or more traces 
+  by simply adding more D flip-flops. One disadvantage of this method is that 
+  the PC does not know which sample corresponds to which input. I cheated by adding 
+  a button on the software to switch the traces around.</span></p>
+<p><span>  </span></p>
+<p><img width=698 height=354
+src="image014.gif" align=absmiddle hspace=12
+alt="Text Box:  &#13;&#10;Fig 7 (also as separate file fig7.ai)&#13;&#10;A multiple trace version of the scope uses one or more D flip-flops to select the relevant output from more than one A/D converter, each connected to an analogue trace probe. The same scheme could also be used to read from higher resolution 12 or 16 bit A/D converters.&#13;&#10;&#13;&#10;&#13;&#10;"
+v:shapes="_x0000_s1032"><span lang=EN-US></span></p>
+<p>A similar arrangement can be used to read from higher resolution 12, 14 or 
+  16 bit A/D converters, by selecting between the most significant and least significant 
+  bytes of a single, wide A/D device. If the converter has less than 16 bits, 
+  one of the spare bits can be used as an external trigger input. Alternatively, 
+  the unused bits can be set to a fixed data pattern. This may enable the PC software 
+  to synchronise to the correct byte order by analysing the repetition patterns 
+  in the byte pairs received.   </p>
+<p><span lang=EN-US>Both the A/D and the FT device can operate at up to 10MHz 
+  in burst mode. It is therefore possible to run the scope ten times faster by 
+  filling the transmit FIFO buffer at the higher clock rates, and dumping to the 
+  PC at the normal 1MHz transfer rate. The 384 byte FIFO may not be large enough 
+  for some applications. However, it is quite easy to add an external FIFO RAM 
+  (such as a 256K TV frame grabber FIFO). The buffer is connected between the 
+  A/D and the USB. Clocking and gating arrangements are relatively straightforward. 
+  This would allows the scope to run at up to 5MHz bandwidth in burst mode. This 
+  can also form the basis of a simple USB video frame grabber.</span></p>
+<p><b><span lang=EN-US>Input Circuit </span></b></p>
+<p><span lang=EN-US>All configurations share the same input circuitry. This is 
+  shown in detail in <b>Fig8</b>. The TLC5510 has an adjustable analogue input 
+  span that is determined by the externally applied voltages at pins REFT and 
+  REFB. The chip includes a number of internal resistors that allow designers 
+  to choose a set of gap options without adding external circuitry. The chip was 
+  designed mainly for video conversion, and the two main range options are either 
+  0.0 - 2.3 volts, and 0.6 to 2.6 volts. </span></p>
+<p><span lang=EN-US>However, we have a little problem here. The USB cable provides 
+  a variable supply voltage between 4.2 and 5.25 volts. The simple resistor divider 
+  inside the chip will not give us an accurate reference (it also draws about 
+  10mA quiescent). As an alternative, I used an external 2.5 reference diode, 
+  dispensing with the internal resistors. </span></p>
+<p><img width=693 height=553
+src="image016.gif" align=absmiddle hspace=12
+alt="Text Box:  &#13;&#10;&#13;&#10;Fig 8 (also as separate file fig8.ai)&#13;&#10;Fig 8a: A possible analogue input signal conditioner. The input range is -10 to +10 volts with an input impedance of about 1Meg.  The second op-amp performs a bit of level shifting and gain to provide the 0-2.5 volts required by the A/D converter from the probe’s input range of -10 to +10 volts. The two pots are used to trim zero level and final gain. &#13;&#10;&#13;&#10;Fig 8b: A circuit to provide the negative supply required by the op-amp. The transistor is used to switch power only when the USB module is active. This is derived from the TXE signal. &#13;&#10;&#13;&#10;"
+v:shapes="_x0000_s1033"><span lang=EN-US></span></p>
+<p><span lang=EN-US>The analogue input to the A/D is internally connected to various 
+  capacitor switches, and ideally, requires a low impedance source. We also need 
+  some means of shifting the voltage levels so that the probe input can measure 
+  negative voltages. We also need some means of trimming the overall gain and 
+  zero points. I used two op-amps in the simple configuration shown. You may prefer 
+  to use some other arrangement as long as it eventually provides an output of 
+  0 to 2.5 volts at low impedance into the A/D converter. The op-amp should be 
+  a high impedance, high frequency type, enough to give a gain of at least ten 
+  at 10MHz. Be aware that some op-amps have limited top saturation voltages and 
+  with a positive supply of 5 volts they may clip below the 2.5 volts needed. 
+  I used an LF353 for no other reason that I happened to have one available at 
+  the time. This seemed to work very well. </span></p>
+<p><span> </span></p>
+<p><span lang=EN-US>All power is derived from the USB wire. The FT device, the 
+  Texas CMOS A/D converter and the op amp all require very little current and 
+  can happily work off these voltages at all times, even when the USB is inactive. 
+  However, in order to generate the negative supply for the op-amp I needed to 
+  include a DC-to-DC converter, which robbed nearly 15mA from the 5-volt supply. 
+  I found myself adding a simple circuit using a PNP transistor to remove power 
+  to the DC converter and to the op-amp when the USB is inactive. The FT module 
+  does not provide a specific “power down” output, so I crudely derived this from 
+  the TXE signal. If you use a more efficient low power DC-to-DC converter, you 
+  may not need this part of the circuit. It may be possible to derive the negative 
+  supply from the clock. I assume it should work as the op-amp takes little power. 
+  I have not tried this. </span></p>
+<p><span lang=EN-US>The TLC5510 chip is incredibly sensitive to noise and supply 
+  glitches. This shows as bumps and spikes on the displayed waveforms, especially 
+  during 0111111 to 100000 type transitions. The application notes suggest the 
+  use of separate connections for digital and analogue supplies. You DO need these 
+  if you want a clean output. If you are creating your own PCB layout, make sure 
+  you download the datasheets from the Texas website including all application 
+  notes. They contain very useful recommendations on noise suppression.</span></p>
+<p><span lang=EN-US>For my prototype, I used air to air wiring for all pin connections 
+  on the Texas chip. This at least guaranteed that no PCB cross talk noise would 
+  be present. </span></p>
+<p><span lang=EN-US>I might have spent ten minutes getting the USB module to work 
+  but I am not saying how much time I spent trying to minimise analogue noise 
+  problems. </span></p>
+<p><b><span lang=EN-US>PC Application software </span></b></p>
+<p>On the PC, you only need to install the FTDI comms emulation driver (VCP). 
+  All the relevant drivers are downloadable from their website. These are available 
+  for all relevant versions of Windows, Mac and Unix/Linux. Detailed installation 
+  instructions are also available from the website. They are very simple, and 
+  you may not want to read them. Especially if you are like me, who likes to try 
+  things first, and only read the documentation later when things do not work.  
+</p>
+<p><span lang=EN-US>After installation, you will notice that an extra COM port 
+  has been added to the existing list in your control panel. Note that this COM 
+  port is only enabled when the USB module is active. So, if you want to change 
+  the number for example, ensure the USB module is plugged in.</span></p>
+<p><span lang=EN-US>Writing software for the PC is quite simple. Many of you will 
+  be conversant with software programming, whether in Basic, Borland or Microsoft 
+  tools. If you have written software for the serial port, read no further! The 
+  only thing you will need to know is that the FT module looks in all respects 
+  like a comms port. Only that speed parameters are ignored. The chip runs at 
+  full speed. </span></p>
+<p><span lang=EN-US>For those of you using Basic, there are a number of plug in 
+  ActiveX and DLL component modules you can get for driving the serial port. I 
+  have not tried any of these, but considering the high data rates involved, I 
+  would not be surprised if some of these are not able to keep up with the incoming 
+  stream from the FT module. </span></p>
+<p>However, there is an alternative, FTDI also supplies a set of drivers that 
+  will allow you faster and more direct access to the chip resources. These drivers 
+  (known as D2XXX) are provided in the form of separate DLL files that present 
+  a relatively simple interface to VB, VC++, C+ Builder, Delphi etc. You just 
+  link it to your software project.  </p>
+<p>For those of you using C or C++, you can use any of the many Windows API functions. 
+  <b>Listing 1</b> shows some very simple plain vanilla code you can include in 
+  your application when using the FTDI serial emulator interface. The only two 
+  functions required are <i>com_Init()</i> and <i>com_Exit().</i>  These are used 
+  to initialise and terminate the comms service. These should be called once at 
+  the beginning of the program and once at the end. </p>
+<p><span lang=EN-US>The initialisation program starts a “thread”. This is a section 
+  of code that runs transparently in parallel with the main user program. The 
+  thread keeps a watch on incoming serial port bytes, and calls a function in 
+  the main user program whenever there is a quantity of bytes to transfer. We 
+  call this a “callback” function. In this way, the main program does not need 
+  to spend time reading the comms port, usually a cause for hangs and clumsy behaviour 
+  in some Windows programs. </span></p>
+<p>I have made the code in the thread very simple, and have not resorted to advanced 
+  methods such as events or overlapped functions. I wanted to make it easily readable 
+  and understood by those not fully conversant with advanced programming topics.  
+  The thread consists of an infinite loop, which is only terminated when an error 
+  occurs or when a global flag is set. This follows the normal practice that threads 
+  should terminate themselves. The loop within the thread first calls a comms 
+  API to find out how many bytes are there in the comms buffer. This has the seemingly 
+  inappropriate name of <i>ClearCommError()</i>. In our case, this function will 
+  nominally return either 4k (This is the default transfer size for the FT driver 
+  as specified in the INF file) or zero.  If there are bytes to read, we call 
+  the <i>ReadFile()</i> function to move these into our circular buffer, and then 
+  call a function in the user program. I have called this function  <i>CommReadCB().</i>  
+  If there are no bytes to transfer, I put the thread to sleep for 10mSecs. The 
+  <i>Sleep()</i> API Function is a simple and efficient way of blocking a thread 
+  for a fixed time, as it manages the multi-tasking using very few CPU cycles.  
+  This blocking ensures the thread does not run continuously and hog large chunks 
+  of the CPU time. </p>
+<p>In my version of the program, I have extra code within the thread for interpolation 
+  of arrays, and for detecting a “trigger” point to emulate a triggered scope. 
+  These are written around the Read and Sleep function to maximise usage of spare 
+  time. I have not shown these as they may reduce readability of the relevant 
+  sections of code.   </p>
+<p>The callback function in the main program is used to process the incoming array. 
+  For example, rearranging data arrays for display bitmaps, performing filtering 
+  and processing etc.  </p>
+<p>One important point for software developers: You must avoid calling certain 
+  Windows API functions, especially  graphic functions from within the thread 
+  or the user callback, you may cause very odd effects including crashes. Windows 
+  provides the <i>PostMessage</i> function for this.</p>
+<p><span lang=EN-US>The FTDI driver defaults to 4kbytes transfers. There can be 
+  up to 250 calls to the callback routine in the main program every second. Some 
+  PCs can handle this rate quite happily. With my simple demo program, my 300MHz 
+  PC had enough time to display each array received on an oscilloscope graphics, 
+  and also compute and display the same data as a 1024 point FFT (including integer 
+  to float interpolation).</span></p>
+<p><span lang=EN-US>I am not much of an artistic person when it comes to designing 
+  front panels; <b>Fig9</b> shows my crude attempts of displaying the scope output 
+  on a PC. I am sure you will be able to come up with much more attractive designs.</span></p>
+<p><span> </span></p>
+<p><img width=698 height=312
+src="image018.gif" align=absmiddle hspace=12
+alt="Text Box:  &#13;&#10;&#13;&#10;Fig 9 (also supplied as fig9.jpg)&#13;&#10;Simple oscilloscope PC display program. The bottom line shows a real time FFT display of the top trace. &#13;&#10;"
+v:shapes="_x0000_s1034"><span lang=EN-US></span></p>
+<p><b><span lang=EN-US>Taking it Further</span></b></p>
+<p><span lang=EN-US>If you intend to commercialise your product using USB you 
+  must register your own VID and PID with the USB organisation (www.usb.org). 
+  Becoming a member of this Forum costs $2,500 per year, although you can obtain 
+  an ID number without joining the organisation for $1,500. Check their website 
+  for more details. </span></p>
+<p><span lang=EN-US>Alternatively, you could use the default VID and PID of the 
+  FT245 device. This has the disadvantage that connecting multiple FT devices 
+  to the same computer may confuse the drivers. However, FTDI maintains a book 
+  of unique PIDs that can be uniquely allocated to you at no cost. Please email 
+  <i>fred.dart@ftdchip.com</i> for more details. The only downside of going this 
+  route is that you cannot apply for USB certification for your products, or use 
+  the new trademarked USB logo on your packaging - to do so, you must apply for 
+  your own VID.</span></p>
+<p>You may be wondering how the PID is stored within the FT chip. The FTDI device 
+  contains its own hardwired VID (0403hex) and PID codes (0601hex).  When adding 
+  your own, you store these in a separate 93C46 EEPROM chip that connects directly 
+  to the FT245 chip. This is the little box shown in Fig3.</p>
+<p><b><span lang=EN-US>Obtaining the parts</span></b></p>
+<p>The Texas A/D converter is available from Farnell at about £4 each in small 
+  quantities. The USB module is available from FTDI in the UK for £23.50, which 
+  includes VAT and pp. The company has local Agents in the US and Australia.  
+  Check their website <i>www.ftdichip.co.uk</i> for more up to date details on 
+  pricing and availability. </p>
+<p><span lang=EN-US>An alternative device FT232, provides a serial output instead 
+  of a parallel one. This could be used as a direct replacement for systems using 
+  legacy RS232 interfaces. Full information is available from the FTDI website. 
+  </span></p>
+<p><b><span lang=EN-US>The Author</span></b></p>
+<p><span lang=EN-US>Dr Eddy Insam is a consultant in innovative applications of 
+  telecommunications and specialises in graphics and signal processing. He can 
+  be reached on <i>edinsam@eix.co.uk</i>.</span></p>
+<p><b><span lang=EN-US>For More Information</span></b></p>
+<p><i><span lang=EN-US>http://www.ftdichip.com</span></i><span
+lang=EN-US> For more information on the USB module. </span></p>
+<p><i><span lang=EN-US>http://www.Farnell.co.uk</span></i><span
+lang=EN-US> </span></p>
+<p><span> </span></p>
+<p><i><span lang=EN-US>http://focus.ti.com/docs/analog/analoghomepage.jhtml</span></i><span
+lang=EN-US> Texas Instruments datasheets on AD converters and application notes.<i></i></span></p>
+<span lang=EN-US style='font-size:10.0pt;font-family:
+Arial;'><br clear=all
+style='page-break-before:always'>
+</span> 
+<p><span lang=EN-US>Listing 1, Page 1</span></p>
+<p> 
+<table cellpadding=0 cellspacing=0>
+  <tr> 
+    <td width=700 height=738 align=left valign=top bgcolor=white class="Normal"> 
+      <table cellpadding=0 cellspacing=0 width="100%">
+        <tr> 
+          <td class="Normal"> 
+            <div v:shape="_x0000_s1038" style='padding:3.6pt 7.2pt 3.6pt 7.2pt'
+    class=shape> 
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//**************************************************************************</span></p>
+              <p>//**    User Entry points:</p>
+              <p><span> </span></p>
+              <p>int     com_Init    (int port, int bsize);</p>
+              <p>int     com_Exit    ();</p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//**************************************************************************</span></p>
+              <p>//**    Local variables, user does not need to access these </p>
+              <p>HANDLE  com_handle= NULL;        // comms port handle</p>
+              <p>int     com_thrstop=0;          // flag to order thread to stop</p>
+              <p>int     com_bmask=  0;          // max buffer size mask, i.e. 
+                0x3FFF         </p>
+              <p>int     com_bsize=  0;          // circular buffer size = bmask+1  
+              </p>
+              <p>int     com_bindx=  0;          // circular index to last written 
+                data</p>
+              <p>PBYTE   com_bdata=  NULL;       // ptr to rx data buffer</p>
+              <p>char    com_zerror  [256];      // stores error messages </p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//**************************************************************************</span></p>
+              <p>//**   - The main running thread. This is called by the Init 
+                function, and </p>
+              <p>//        made to stop by the Exit function. User does not call 
+                this. </p>
+              <p>//     - Uses NON_OVERLAPPED mode with simple sleep delay for 
+                simplicity</p>
+              <p>static DWORD WINAPI com_Thr(LPVOID p)                    </p>
+              <p>{    COMSTAT comstat; DWORD errmask;</p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                Initialise and validate.................................................</span></p>
+              <p><span>     </span>com_thrstop=0;</p>
+              <p><span>     </span>com_bindx=  0;</p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                Do the forever loop.(till “stop” flag is set externally)................</span></p>
+              <p><span>     </span>while ( (com_thrstop==0) &amp;&amp; (com_handle!=NULL) 
+                &amp;&amp;(pDlg!=NULL) )</p>
+              <p><span>     </span>{ //** Add any extra operations here, </p>
+              <p><span>       </span>//</p>
+              <p><span>       </span>//* Get nr of bytes in rx queue to read</p>
+              <p><span>       </span>ClearCommError(com_handle,&amp;errmask,&amp;comstat);  
+              </p>
+              <p><span>       </span>int ntr=comstat.cbInQue;                 
+                // this gives the Q size     </p>
+              <p><span>       </span>//</p>
+              <p><span>       </span>if (ntr&gt;0)  </p>
+              <p><span>       </span>{ //* align for wraparound in circular buffer 
+              </p>
+              <p><span>         </span>if ( (ntr + com_bindx) &gt; com_bsize) 
+                ntr = com_bsize - com_bindx;  </p>
+              <p><span>         </span>PBYTE ptr = com_bdata + com_bindx;</p>
+              <p><span>         </span>//* Read the bytes to our buffer </p>
+              <p><span>         </span>DWORD nrd; </p>
+              <p><span>         </span>int ne=ReadFile(com_handle,ptr,ntr,&amp;nrd,NULL); 
+              </p>
+              <p><span>         </span>//* Handle errors, if any..........................................</p>
+              <p><span>         </span>if (ne==0)</p>
+              <p><span>            </span>{ ClearCommError(com_handle,&amp;errmask,&amp;comstat);</p>
+              <p><span>              </span>//pDlg-&gt;CommErrorCB(errmask);   
+                // could call user error CB           </p>
+              <p><span>            </span>}</p>
+              <p><span>         </span>//</p>
+              <p><span> </span>        //* if RX data is valid, call user callback 
+                with buffer data</p>
+              <p><span>         </span>if ( (ne!=0) &amp;&amp; (nrd!=0) ) </p>
+              <p><span>         </span>{ // Any relevant low level signal processing 
+                could go here..</p>
+              <p><span>           </span>//</p>
+              <p><span>           </span>// Call a function in the user application. 
+                Pass: buffer start, index</p>
+              <p><span>           </span>//  to last block written, and number 
+                of bytes (circular buffer)</p>
+              <p><span>           </span>// pDlg is a pointer to the user application 
+                Object (assuming c++)</p>
+              <p><span>           </span>// Alternatively, just call a normal 
+                user function without reference.</p>
+              <p><span>     </span>      int ee=pDlg-&gt;CommReadCB(com_bdata,com_bindx,nrd);</p>
+              <p><span>           </span>if(ee!=0) com_thrstop=1;   // If returns 
+                &lt;&gt;0, user wants to abort </p>
+              <p><span>           </span>com_bindx += nrd;</p>
+              <p><span>           </span>com_bindx &amp;= com_bmask;    // align 
+                index on circular buffer</p>
+              <p><span>         </span>}   </p>
+              <p><span>       </span>}</p>
+              <p><span>       </span>//* If nothing was read from line, block 
+                thread to allow buffer to fill.        </p>
+              <p><span>       </span>else  </p>
+              <p><span>       </span>{  Sleep(10);         // could also add extra 
+                user operations here</p>
+              <p><span>       </span>}</p>
+              <p><span>     </span>}                                 </p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                End of thread..........................................................</span></p>
+              <p><span>     </span>com_thrstop=0;                               
+              </p>
+              <p><span>     </span>return 0;</p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>}</span></p>
+              <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//==========================================================================</span></p>
+            </div>
+          </td>
+        </tr>
+      </table>
+      &nbsp;</td>
+  </tr>
+</table>
+<span> </span>
+<p></p>
+<span lang=EN-US style='font-size:10.0pt;font-family:
+Arial;'><br clear=all
+style='page-break-before:always'>
+</span> 
+<p><span lang=EN-US>Listing 1, Page 2</span></p>
+<p><span style='position:absolute;
+left:1px;top:10782px;width:700px;height:992px'> 
+  <table cellpadding=0 cellspacing=0>
+    <tr> 
+      <td width=700 height=992 align=left valign=top bgcolor=white class="Normal"> 
+        <table cellpadding=0 cellspacing=0 width="100%">
+          <tr> 
+            <td class="Normal"> 
+              <div v:shape="_x0000_s1037" style='padding:3.6pt 7.2pt 3.6pt 7.2pt'
+    class=shape> 
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//**************************************************************************</span></p>
+                <p>//**    Initialise. Call this once at the start of your program</p>
+                <p>//      ‘port’  is the wanted port number, e.g. 3 </p>
+                <p>//      ‘bsize’ is the wanted buffer size, must be a power 
+                  of 2, e.g. 32768</p>
+                <p>int  com_Init(int port, int bufsize)</p>
+                <p>{    int e;</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Validate...............................................................</span></p>
+                <p><span>     </span>if(com_handle!=0) return 0;    // If already 
+                  opened, ignore the call </p>
+                <p><span>     </span>com_bsize=bufsize;             // save buffersize, 
+                  must be 2^n</p>
+                <p><span>     </span>com_bmask=bufsize-1;           // set mask 
+                  e.g. 0x7FFF</p>
+                <p><span>     </span>com_zerror[0]=0;               // clear global 
+                  error message</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Open the comms port....................................................</span></p>
+                <p><span>     </span>char zp[8]; sprintf(zp,&quot;COM%d&quot;,port); 
+                </p>
+                <p><span>  </span>   com_handle=CreateFile( zp,                            
+                  // &quot;COMn&quot;</p>
+                <p><span>                            </span>GENERIC_READ|GENERIC_WRITE,    
+                  // </p>
+                <p><span>                            </span>0,                             
+                  // no share (only option)</p>
+                <p><span>                            </span>NULL,                          // 
+                  Security attribs </p>
+                <p><span>                            </span>OPEN_EXISTING,                 
+                  // must be this for comms</p>
+                <p><span>                            </span>0,                             
+                  // non FLAG_OVERLAPPED </p>
+                <p><span>                            </span>NULL                 
+                            // must be NULL for comms</p>
+                <p><span>                          </span>);</p>
+                <p><span>     </span>// cannot open com port?</p>
+                <p><span>     </span>if (com_handle==INVALID_HANDLE_VALUE)</p>
+                <p><span>        </span>{ int ee=GetLastError();</p>
+                <p><span>          </span>sprintf (com_zerror,&quot;COM%d error 
+                  %d&quot;,port,ee);</p>
+                <p><span>          </span>com_handle=NULL;</p>
+                <p><span> </span>         return -1; </p>
+                <p><span>        </span>}</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Allocate a dynamic byte buffer for storing incoming data...............</span></p>
+                <p><span>     </span>com_bdata= new BYTE[com_bsize];   </p>
+                <p><span>     </span>if(com_bdata==NULL) { com_Exit(); return 
+                  -1; }        // error, cannot allocate memory</p>
+                <p>//** Allocate internal buffer sizes within the comms driver 
+                  ................    </p>
+                <p><span>     </span>e=SetupComm (com_handle,com_bsize,1024);      
+                </p>
+                <p>//** Default DCB to some initial values.....................................    
+                </p>
+                <p><span>     </span>DCB  Dcb;                      // Holds a 
+                  dcb structure </p>
+                <p><span>     </span>e=GetCommState(com_handle,&amp;Dcb);    // 
+                  fills DCB with current settings   0=fail</p>
+                <p><span>     </span>Dcb.DCBlength=           sizeof(DCB);</p>
+                <p><span>     </span>Dcb.BaudRate=            115200;                 
+                  // Ignored by FT driver</p>
+                <p><span>     </span>Dcb.fAbortOnError=       FALSE;                  // 
+                  Stop tx rx if error rx      </p>
+                <p><span>     </span>Dcb.fBinary=             TRUE;                   
+                  // Binary mode, noEOF check </p>
+                <p><span>     </span>Dcb.fParity=             0;                      
+                  // 0=disable parity</p>
+                <p><span>     </span>Dcb.fOutxCtsFlow=        0;                      
+                  // 1=enable CTS for outgoing flow control</p>
+                <p><span>     </span>Dcb.fOutxDsrFlow=        0;                      
+                  // 1=enable DSR for outgoing flow control</p>
+                <p><span>     </span>Dcb.fDtrControl=         DTR_CONTROL_ENABLE;     
+                  // set DTR to on   (DTR_CONTROL_HANDSHAKE)</p>
+                <p><span>     </span>Dcb.fDsrSensitivity=     0;                      
+                  // if true, enable rx when DSR=1</p>
+                <p><span>     </span>Dcb.fOutX=               0;                      
+                  // if TRUE, XON/XOFF enabled for outgoing</p>
+                <p><span>     </span>Dcb.fInX=                0;                      
+                  // if TRUE, XON/XOFF enabled for ingoing</p>
+                <p><span> </span>    Dcb.fErrorChar=          0;                      
+                  // Error char replacement when parity detected</p>
+                <p><span>     </span>Dcb.fNull=               0;                      
+                  // if TRUE, discard NULL bytes on rx</p>
+                <p><span>     </span>Dcb.fRtsControl=         RTS_CONTROL_ENABLE;     
+                  // leave rts on always  (RTS_CONTROL_HANDSHAKE)</p>
+                <p><span>     </span>Dcb.fAbortOnError=       0;</p>
+                <p><span>     </span>Dcb.ByteSize=            8;            // 
+                  nr of bytes</p>
+                <p><span>     </span>Dcb.Parity=              NOPARITY;               
+                  // NOPARITY;</p>
+                <p><span>     </span>Dcb.StopBits=            ONESTOPBIT;     
+                  // 0,1,2; 1,1.5,2  ONESTOPBIT;</p>
+                <p><span>     </span>Dcb.ErrorChar=           0x00;</p>
+                <p><span>     </span>e=SetCommState(com_handle,&amp;m_Dcb);                    
+                  // set DCB   0=fail</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Set Timeouts ........................................................</span></p>
+                <p><span>     </span>COMMTIMEOUTS  Cto;              // Comms 
+                  Timeout structure</p>
+                <p><span>     </span>Cto.ReadIntervalTimeout=         MAXDWORD;</p>
+                <p><span>     </span>Cto.ReadTotalTimeoutMultiplier=  0;</p>
+                <p><span>     </span>Cto.ReadTotalTimeoutConstant=    0;</p>
+                <p><span>     </span>Cto.WriteTotalTimeoutMultiplier= 0;</p>
+                <p><span>     </span>Cto.WriteTotalTimeoutConstant=   0;</p>
+                <p><span>     </span>e=SetCommTimeouts(com_handle,&amp;Cto);</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Open thread now........................................................</span></p>
+                <p><span>     </span>DWORD tid;                                
+                </p>
+                <p><span>     </span>HANDLE hThr=CreateThread(0,0,(LPTHREAD_START_ROUTINE)com_Thr,0,0,&amp;tid);          
+                </p>
+                <p><span>     </span>if(hThr==NULL) { int ee=GetLastError();</p>
+                <p><span>                      </span>sprintf (com_zerror,&quot;Cannot 
+                  create thread&quot;);</p>
+                <p><span>                      </span>com_Exit();</p>
+                <p><span>                      </span>return -1;</p>
+                <p><span>                    </span>}</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//=.........................................................................</span></p>
+                <p><span>     </span>com_thrstop=0;</p>
+                <p><span>     </span>return 0;</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>}</span></p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//==========================================================================</span></p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//**************************************************************************</span></p>
+                <p>//**    Call this once at the end of your program</p>
+                <p>int  com_Exit()</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>{</span></p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  If already closed, ignore the call.....................................</span></p>
+                <p><span>     </span>if(com_handle==0)  return 0;                         
+                </p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  If thread is running, attempt to close it (&amp; wait till its 
+                  done it)....</span></p>
+                <p><span>     </span>com_thrstop=1;</p>
+                <p><span>     </span>Sleep(100);</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Close Comms handle ....................................................</span></p>
+                <p><span>     </span>CloseHandle(com_handle); </p>
+                <p><span>     </span>com_handle=NULL; </p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//** 
+                  Delete our receive buffer .............................................</span></p>
+                <p><span>     </span>if(com_bdata!=NULL) delete [] com_bdata; 
+                </p>
+                <p><span>     </span>com_bdata=NULL;</p>
+                <p><span>     </span>return 0;</p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>}</span></p>
+                <p><span style='font-size:6.0pt;    font-family:"Courier New"'>//==========================================================================</span></p>
+              </div>
+            </td>
+          </tr>
+        </table>
+        &nbsp;</td>
+    </tr>
+  </table>
+  </span><span lang=EN-US>&nbsp;</span></p>
+<br clear=ALL>
+<p><span> </span></p>
+</body>
+</html>
+

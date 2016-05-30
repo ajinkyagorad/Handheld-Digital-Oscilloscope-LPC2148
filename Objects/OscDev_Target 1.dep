@@ -1,6 +1,6 @@
 Dependencies for Project 'OscDev', Target 'Target 1': (DO NOT MODIFY !)
 F (.\Startup.s)(0x559400FA)(--cpu ARM7TDMI --pd "__EVAL SETA 1" -g --apcs=interwork -I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips--pd "__UVISION_VERSION SETA 514"--list .\listings\startup.lst --xref -o .\objects\startup.o --depend .\objects\startup.d)
-F (.\main.cpp)(0x55F1BF77)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.cpp)(0x56267086)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 I (spi1.h)(0x55812659)
 I (ILI9225.h)(0x55F1CB36)
@@ -52,7 +52,7 @@ I (defines.h)(0x55811F08)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 F (.\pll.h)(0x54EFA975)()
 F (.\defines.h)(0x55811F08)()
-F (.\oscilloscope.cpp)(0x55F1C965)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\oscilloscope.o --omf_browse .\objects\oscilloscope.crf --depend .\objects\oscilloscope.d)
+F (.\oscilloscope.cpp)(0x57063BAF)(--cpp -c --cpu ARM7TDMI -D__EVAL -g -O2 --apcs=interwork --split_sections --enum_is_int-I C:\Keil_v5\ARM\RV31\INC-I C:\Keil_v5\ARM\CMSIS\Include-I C:\Keil_v5\ARM\Inc\Philips-D__UVISION_VERSION="514"-o .\objects\oscilloscope.o --omf_browse .\objects\oscilloscope.crf --depend .\objects\oscilloscope.d)
 I (oscilloscope.h)(0x55F1CB2E)
 I (C:\Keil_v5\ARM\Inc\Philips\lpc214x.h)(0x53465962)
 I (complex.h)(0x5571616E)
